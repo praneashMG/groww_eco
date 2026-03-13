@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GrowwEco Blog Article Details">
+    <title>Article | GrowwEco</title>
+    
+    <link rel="icon" href="Images/growwpark_logo.jpg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2ECC71',   /* Fresh Green */
+                        secondary: '#FACC15', /* Warm Yellow */
+                        accent: '#FACC15',    /* Warm Yellow for Highlights */
+                        baseDark: '#111827',  /* Deep Gray/Black */
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary-color: #2ECC71; 
+            --secondary-color: #FACC15; 
+            --accent-color: #FACC15;
+            --base-dark: #111827;
+            --text-black: #000000;
+            --text-white: #FFFFFF;
+            
+            --bg-color: #FFFFFF;
+            --bg-alt: #F9FAFB;
+            --card-bg: #FFFFFF;    
+            --text-main: #1F2937;
+            --text-heading: #000000;
+            --navbar-bg: #FFFFFF;
+            --nav-text: #000000;
+            --border-color: #E5E7EB;
+            --dropdown-bg: #FFFFFF;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #2ECC71;      
+            --secondary-color: #FACC15;
+            --accent-color: #FACC15;     
+            --bg-color: #111827;
+            --bg-alt: #1F2937;  
+            --card-bg: #374151;  
+            --text-main: #F3F4F6;
+            --text-heading: #FFFFFF;
+            --navbar-bg: #111827;
+            --nav-text: #FFFFFF;
+            --border-color: #4B5563;
+            --dropdown-bg: #374151;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        h1, h2, h3, h4, h5, h6 { color: var(--text-heading); }
+        p { color: var(--text-main); }
+        
+        .bg-theme-main { background-color: var(--bg-color); }
+        .bg-theme-alt { background-color: var(--bg-alt); }
+        .bg-card-theme { background-color: var(--card-bg); }
+        .text-heading-theme { color: var(--text-heading) !important; }
+        .text-body-theme { color: var(--text-main) !important; }
+        .border-theme { border-color: var(--border-color) !important; }
+        
+        .bg-primary { background-color: var(--primary-color) !important; }
+        .bg-secondary { background-color: var(--secondary-color) !important; }
+        .text-primary { color: var(--primary-color) !important; }
+        .text-secondary { color: var(--secondary-color) !important; }
+
+        /* Navbar Styles */
+        .navbar-container {
+            background-color: var(--navbar-bg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .nav-link {
+            color: var(--nav-text);
+            padding: 8px 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .nav-link:hover { color: var(--primary-color); }
+        .nav-link.active { color: var(--primary-color); font-weight: 700; }
+        
+        .navbar-brand-text { color: var(--nav-text); }
+
+        /* Nav Icon Buttons */
+        .nav-icon-btn {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--nav-text);
+        }
+        [data-theme="dark"] .nav-icon-btn {
+            background-color: rgba(250, 204, 21, 0.1);
+        }
+
+        /* Dropdowns */
+        .dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        .dropdown:hover .dropdown-menu, .dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: var(--nav-text);
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        .dropdown-item:hover {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--primary-color);
+            padding-left: 25px;
+        }
+        .dropdown-arrow { font-size: 0.7rem; transition: transform 0.3s ease; }
+        .dropdown:hover .dropdown-arrow { transform: rotate(180deg); }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            background-color: var(--bg-color);
+        }
+        .mobile-menu.active { transform: translateX(0); }
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding-left: 20px;
+            background-color: var(--bg-alt);
+            border-radius: 8px;
+        }
+        .mobile-dropdown-content.active { max-height: 500px; margin: 5px 0; }
+        
+        /* Blog Content Specific Styles */
+        .prose p { margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-main); }
+        .prose h2 { font-size: 1.8rem; font-weight: 800; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--text-heading); }
+        .prose h3 { font-size: 1.4rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--text-heading); }
+        .prose ul { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style-type: disc; color: var(--text-main); }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose blockquote { border-left: 4px solid var(--primary-color); padding-left: 1rem; font-style: italic; opacity: 0.9; margin: 2rem 0; background-color: rgba(46, 204, 113, 0.05); padding: 1.5rem; border-radius: 8px; }
+        
+        /* Text Gradients */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        @media (max-width: 1279px) {
+            .desktop-nav, .navbar-right-desktop { display: none !important; }
+            .mobile-menu-button { display: flex !important; }
+        }
+        @media (min-width: 1280px) {
+            .desktop-nav { display: flex !important; }
+            .navbar-right-desktop { display: flex !important; }
+            .mobile-menu-button { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar" class="navbar-container py-3 fixed top-0 w-full z-[1000]">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                
+                <a href="index.html" class="flex items-center gap-2 no-underline transition-transform duration-300 hover:scale-105">
+                    <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
+                        <i class="fas fa-leaf text-sm md:text-base"></i>
+                    </div>
+                    <div class="text-xl md:text-2xl font-black tracking-tight navbar-brand-text">GrowwEco</div>
+                </a>
+                
+                <div class="desktop-nav items-center space-x-1 lg:space-x-2">
+                    <div class="dropdown" id="home-dropdown">
+                        <div class="nav-link" onclick="toggleDesktopDropdown('home-dropdown')">
+                            Home <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item">Home 1</a>
+                            <a href="home2.html" class="dropdown-item">Home 2</a>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="impact.html" class="nav-link">Impact</a>
+                    <a href="product.html" class="nav-link">Product</a>
+                    <a href="blog.html" class="nav-link active">Blog</a>
+                    <a href="faq.html" class="nav-link">FAQ</a>
+                    <a href="pricing.html" class="nav-link">Pricing</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+
+                    <div class="dropdown" id="dashboard-dropdown">
+                        <div class="nav-link" onclick="toggleDesktopDropdown('dashboard-dropdown')">
+                            Dashboard <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="user-dashboard.html" class="dropdown-item"><i class="fas fa-user mr-2 text-primary"></i> User</a>
+                            <a href="admin-dashboard.html" class="dropdown-item"><i class="fas fa-user-shield mr-2 text-primary"></i> Admin</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="navbar-right-desktop flex items-center gap-2 lg:gap-3">
+                    <button class="w-10 h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-theme-toggle-btn" title="Toggle Dark/Light Mode">
+                        <i class="fas fa-moon" id="desktop-theme-icon"></i>
+                    </button>
+                    <button class="w-10 h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-rtl-toggle-btn" title="Toggle RTL">
+                        <i class="fas fa-language"></i>
+                    </button>
+                    <a href="login.html" class="bg-primary text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:bg-green-700 shadow-lg flex items-center gap-2">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                </div>
+                
+                <button id="mobile-menu-btn" class="nav-icon-btn text-xl cursor-pointer p-2 rounded-lg w-10 h-10 flex items-center justify-center mobile-menu-button">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 w-full h-full z-[9999] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8 border-b border-theme pb-4">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
+                        <i class="fas fa-leaf text-sm"></i>
+                    </div>
+                    <span class="text-lg font-black tracking-tight text-heading-theme hidden sm:block">GrowwEco</span>
+                </a>
+                
+                <div class="flex items-center gap-1 sm:gap-2">
+                    <button class="w-8 h-8 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="mobile-theme-toggle" title="Toggle Dark/Light Mode">
+                        <i class="fas fa-moon text-sm" id="mobile-theme-icon"></i>
+                    </button>
+                    
+                    <button class="w-8 h-8 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="mobile-rtl-toggle" title="Toggle RTL">
+                        <i class="fas fa-language text-sm"></i>
+                    </button>
+                    
+                    <a href="login.html" class="bg-primary text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-all hover:bg-green-700" title="Login">
+                        <i class="fas fa-user text-sm"></i>
+                    </a>
+                    
+                    <button id="close-mobile-menu" class="text-heading-theme text-2xl ml-1 transition-transform active:scale-90 border-none bg-transparent cursor-pointer">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="space-y-1">
+                <div>
+                    <button id="mobile-home-link" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline cursor-pointer border-0 bg-transparent" onclick="toggleMobileDropdown('home-mobile')">
+                        <span><i class="fas fa-home mr-2 text-primary"></i> Home</span>
+                        <i class="fas fa-chevron-down dropdown-arrow text-body-theme"></i>
+                    </button>
+                    <div id="home-mobile" class="mobile-dropdown-content">
+                        <a href="index.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Home 1</a>
+                        <a href="home2.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Home 2</a>
+                    </div>
+                </div>
+
+                <a href="about.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-info-circle mr-2 text-primary"></i> About</span>
+                </a>
+                <a href="impact.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-globe mr-2 text-primary"></i> Impact</span>
+                </a>
+                <a href="product.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-box-open mr-2 text-primary"></i> Product</span>
+                </a>
+                <a href="blog.html" class="flex items-center justify-between w-full text-primary text-lg font-bold py-3 no-underline">
+                    <span><i class="fas fa-leaf mr-2"></i> Blog</span>
+                </a>
+                <a href="faq.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-question-circle mr-2 text-primary"></i> FAQ</span>
+                </a>
+                <a href="pricing.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-tags mr-2 text-primary"></i> Pricing</span>
+                </a>
+                <a href="contact.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-envelope mr-2 text-primary"></i> Contact</span>
+                </a>
+                
+                <div>
+                    <button class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline cursor-pointer border-0 bg-transparent" onclick="toggleMobileDropdown('dashboard-mobile')">
+                        <span><i class="fas fa-tachometer-alt mr-2 text-primary"></i> Dashboard</span>
+                        <i class="fas fa-chevron-down dropdown-arrow text-body-theme"></i>
+                    </button>
+                    <div id="dashboard-mobile" class="mobile-dropdown-content">
+                        <a href="user-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">User Dashboard</a>
+                        <a href="admin-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Admin Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="article-hero" class="pt-[100px] min-h-screen relative overflow-hidden flex items-end pb-24 bg-cover bg-center" style="background-image: url('Images/10 Easy Swaps for a Plastic-Free Kitchen.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30 pointer-events-none z-0"></div>
+        
+        <div class="container mx-auto px-4 relative z-10 max-w-4xl fade-in-up">
+            <a href="blog.html" class="inline-flex items-center text-white/80 hover:text-white mb-6 text-sm font-medium transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Blog
+            </a>
+            
+            <div id="dynamic-category" class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4 uppercase tracking-wide">Guides</div>
+            
+            <h1 id="dynamic-title" class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight text-white drop-shadow-md">
+                10 Easy Swaps for a Plastic-Free Kitchen
+            </h1>
+            
+            <div class="flex flex-wrap items-center gap-6 text-gray-300 text-sm">
+                <div class="flex items-center gap-2">
+                    <i class="far fa-calendar-alt"></i> <span id="dynamic-date">Oct 12, 2026</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="far fa-clock"></i> <span id="dynamic-read-time">5 min read</span>
+                </div>
+                <div class="flex gap-2 ml-auto">
+                    <button class="w-10 h-10 rounded-full bg-white/20 hover:bg-primary text-white flex items-center justify-center transition-colors shadow-lg"><i class="fas fa-share-alt"></i></button>
+                    <button class="w-10 h-10 rounded-full bg-white/20 hover:bg-primary text-white flex items-center justify-center transition-colors shadow-lg"><i class="far fa-bookmark"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-theme-main border-b border-theme">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex flex-col lg:flex-row gap-12">
+                
+                <div class="lg:w-2/3">
+                    <article id="dynamic-content" class="prose max-w-none text-lg">
+                        <p class="text-xl font-medium opacity-90 mb-8">
+                            Transform your kitchen into a zero-waste haven with these simple, cost-effective product swaps that eliminate single-use plastics without sacrificing convenience.
+                        </p>
+                        
+                        <h2>1. Ditch the Plastic Wrap for Beeswax</h2>
+                        <p>Plastic cling wrap is one of the most wasteful items in the modern kitchen. Used once and tossed, it ends up in landfills for centuries. Instead, swap it out for beeswax wraps. These are made from cotton infused with beeswax, jojoba oil, and tree resin. They are washable, reusable for up to a year, and fully compostable when they lose their grip.</p>
+                        
+                        <blockquote>
+                            "The kitchen is the heart of the home, but it's also where we generate the most waste. A few mindful swaps can reduce your family's trash output by 50%." 
+                        </blockquote>
+                        
+                        <h2>2. Glass and Stainless Steel Containers</h2>
+                        <p>Throw away those stained, chemical-leaching plastic tupperwares. Opt for glass containers with bamboo or silicone lids. Not only do they look much cleaner and more organized in your fridge, but they also don't hold onto food smells and are infinitely recyclable.</p>
+                        
+                        <h2>3. Compostable Sponges and Brushes</h2>
+                        <p>Did you know regular kitchen sponges are made from synthetic plastics that shed microplastics down your drain with every wash? Switch to natural loofahs, wooden dish brushes with agave bristles, or cellulose sponges. They clean just as well and can go straight into your compost bin when they wear out.</p>
+
+                        <div class="bg-theme-alt p-6 rounded-xl border border-theme my-8">
+                            <h3 class="mt-0 text-primary">Pro Tip for Longevity</h3>
+                            <p class="mb-0 text-sm">To make your wooden dish brushes last longer, never leave them sitting in a puddle of water. Hang them or let them dry bristle-side down.</p>
+                        </div>
+
+                        <h2>Conclusion</h2>
+                        <p>Going plastic-free doesn't have to happen overnight. Start with one swap this week, get used to it, and move on to the next. Every single piece of plastic you refuse makes a difference to our oceans and our future.</p>
+                    </article>
+
+                    <section class="mt-16 pt-12 border-t border-theme">
+                        <h3 class="text-2xl font-bold text-heading-theme mb-8">Discussion (2 Comments)</h3>
+                        
+                        <div class="space-y-8 mb-12">
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-sm shrink-0 border border-primary/30">
+                                    MS
+                                </div>
+                                <div class="bg-theme-alt p-5 rounded-2xl rounded-tl-none border border-theme flex-grow">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h4 class="font-bold text-heading-theme">Mark Spencer</h4>
+                                        <span class="text-xs text-body-theme opacity-70">Oct 13, 2026</span>
+                                    </div>
+                                    <p class="text-body-theme text-sm">I started using beeswax wraps last month and they are absolute game changers! I was worried they wouldn't stick as well to bowls, but the warmth of my hands molds them perfectly. Highly recommend!</p>
+                                    <button class="text-primary text-xs font-bold mt-3 hover:underline">Reply</button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4 ml-8 md:ml-12">
+                                <img src="Images/David Ross.jpg" alt="Author" class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60'">
+                                <div class="bg-card-theme p-5 rounded-2xl rounded-tl-none border border-primary/30 flex-grow shadow-sm">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h4 class="font-bold text-heading-theme flex items-center gap-2">David Ross <span class="bg-primary text-white text-[10px] px-2 py-0.5 rounded-full uppercase">Author</span></h4>
+                                        <span class="text-xs text-body-theme opacity-70">Oct 13, 2026</span>
+                                    </div>
+                                    <p class="text-body-theme text-sm">That's amazing to hear, Mark! Yes, the hand-warmth trick is essential. Wait until you try using them to wrap a sandwich for lunch—so much better than plastic baggies!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-theme-alt p-6 md:p-8 rounded-2xl border border-theme">
+                            <h4 class="font-bold text-xl text-heading-theme mb-4">Leave a Reply</h4>
+                            <p class="text-sm text-body-theme mb-6 opacity-80">Your email address will not be published. Required fields are marked *</p>
+                            <form class="space-y-4" onsubmit="event.preventDefault();">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-body-theme mb-1">Name *</label>
+                                        <input type="text" class="w-full px-4 py-3 rounded-lg border border-theme bg-card-theme text-body-theme focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-body-theme mb-1">Email *</label>
+                                        <input type="email" class="w-full px-4 py-3 rounded-lg border border-theme bg-card-theme text-body-theme focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-body-theme mb-1">Comment *</label>
+                                    <textarea rows="4" class="w-full px-4 py-3 rounded-lg border border-theme bg-card-theme text-body-theme focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required></textarea>
+                                </div>
+                                <button type="submit" class="bg-primary text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 transition-colors shadow-md">Post Comment</button>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="lg:w-1/3 space-y-8">
+                    
+                    <div class="bg-card-theme p-6 rounded-2xl border border-theme shadow-sm">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="Images/David Ross.jpg" alt="Author" class="w-16 h-16 rounded-full object-cover border-2 border-primary" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60'">
+                            <div>
+                                <h4 class="font-bold text-heading-theme">David Ross</h4>
+                                <p class="text-xs text-primary font-bold uppercase">Eco-Activist</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-body-theme mb-4">David is a passionate advocate for zero-waste living and minimalist design. He spends his weekends finding new ways to compost and educating communities on sustainable swaps.</p>
+                        <button class="w-full border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold py-2 rounded-lg transition-colors">Follow Author</button>
+                    </div>
+
+                    <div class="bg-card-theme p-6 rounded-2xl border border-theme shadow-sm">
+                        <h4 class="font-bold text-heading-theme mb-4 pb-2 border-b border-theme">Tags</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#" class="px-3 py-1 bg-theme-alt border border-theme rounded-md text-xs font-medium hover:bg-primary hover:text-white transition-colors">#ZeroWaste</a>
+                            <a href="#" class="px-3 py-1 bg-theme-alt border border-theme rounded-md text-xs font-medium hover:bg-primary hover:text-white transition-colors">#KitchenSwaps</a>
+                            <a href="#" class="px-3 py-1 bg-theme-alt border border-theme rounded-md text-xs font-medium hover:bg-primary hover:text-white transition-colors">#PlasticFree</a>
+                            <a href="#" class="px-3 py-1 bg-theme-alt border border-theme rounded-md text-xs font-medium hover:bg-primary hover:text-white transition-colors">#EcoLiving</a>
+                        </div>
+                    </div>
+
+                    <div class="bg-card-theme p-6 rounded-2xl border border-theme shadow-sm text-center">
+                        <h4 class="font-bold text-heading-theme mb-4">Share this post</h4>
+                        <div class="flex justify-center gap-3">
+                            <a href="#" class="w-10 h-10 bg-theme-alt text-body-theme rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors border border-theme"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="w-10 h-10 bg-theme-alt text-body-theme rounded-full flex items-center justify-center hover:bg-blue-400 hover:text-white transition-colors border border-theme"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="w-10 h-10 bg-theme-alt text-body-theme rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors border border-theme"><i class="fab fa-pinterest-p"></i></a>
+                            <a href="#" class="w-10 h-10 bg-theme-alt text-body-theme rounded-full flex items-center justify-center hover:bg-green-500 hover:text-white transition-colors border border-theme"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-theme-alt border-b border-theme">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <span class="text-primary font-bold tracking-wider uppercase text-sm block mb-1">Keep Exploring</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-heading-theme">Read Next</h2>
+                </div>
+                <a href="blog.html" class="hidden md:flex items-center gap-2 text-primary font-bold hover:text-green-700 transition-colors">
+                    Back to Blog <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <a href="blog-detail.html?id=4" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
+                    <div class="h-48 relative overflow-hidden">
+                        <img src="Images/How to Composting in a Small Apartment.jpg" alt="Composting" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?w=600&auto=format&fit=crop&q=60'">
+                        <div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Tips</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">How to Composting in a Small Apartment</h3>
+                        <p class="text-body-theme text-sm mb-4 line-clamp-2 flex-grow">No backyard? No problem! Discover effective, odor-free ways to compost...</p>
+                        <span class="inline-block text-primary font-bold mt-auto group-hover:underline">Read Article &rarr;</span>
+                    </div>
+                </a>
+
+                <a href="blog-detail.html?id=5" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
+                    <div class="h-48 relative overflow-hidden">
+                        <img src="Images/Building a Sustainable Wardrobe on a Budget.jpg" alt="Wardrobe" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&auto=format&fit=crop&q=60'">
+                        <div class="absolute top-4 left-4 bg-secondary text-black text-xs font-bold px-3 py-1 rounded-full">Lifestyle</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">Building a Sustainable Wardrobe on a Budget</h3>
+                        <p class="text-body-theme text-sm mb-4 line-clamp-2 flex-grow">Eco-friendly fashion shouldn't break the bank. Here are our top secrets...</p>
+                        <span class="inline-block text-primary font-bold mt-auto group-hover:underline">Read Article &rarr;</span>
+                    </div>
+                </a>
+
+                <a href="blog-detail.html?id=3" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
+                    <div class="h-48 relative overflow-hidden">
+                        <img src="Images/Meet the Artisans Behind Our Bamboo Collection.jpg" alt="Artisans" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=600&auto=format&fit=crop&q=60'">
+                        <div class="absolute top-4 left-4 bg-baseDark text-white text-xs font-bold px-3 py-1 rounded-full">Interviews</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">Meet the Artisans Behind Our Bamboo Collection</h3>
+                        <p class="text-body-theme text-sm mb-4 line-clamp-2 flex-grow">An exclusive interview with the incredible local craftsmen designing...</p>
+                        <span class="inline-block text-primary font-bold mt-auto group-hover:underline">Read Article &rarr;</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-20 bg-primary relative overflow-hidden">
+        <i class="fas fa-envelope-open-text absolute -right-10 -bottom-10 text-[15rem] text-white opacity-10 rotate-12 pointer-events-none"></i>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-black text-white mb-4">Join Our Green Community</h2>
+                <p class="text-white opacity-90 mb-8 text-lg">
+                    Subscribe to our newsletter for exclusive eco-tips, new article alerts, and special discounts on sustainable products straight to your inbox. No spam, just pure green goodness.
+                </p>
+                
+                <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="event.preventDefault();">
+                    <input type="email" placeholder="Enter your email address..." class="flex-grow px-5 py-3 rounded-lg border-0 bg-white text-black focus:outline-none focus:ring-2 focus:ring-accent font-medium shadow-md" required>
+                    <button type="submit" class="bg-baseDark text-white px-8 py-3 rounded-lg font-bold hover:bg-black transition-colors shadow-md whitespace-nowrap">
+                        Subscribe Now
+                    </button>
+                </form>
+                <p class="text-white/70 text-xs mt-4">By subscribing, you agree to our Privacy Policy and consent to receive updates.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-baseDark text-white py-12 md:py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
+                <div>
+                    <a href="index.html" class="flex items-center gap-2 mb-6 no-underline transition-transform duration-300 hover:scale-105">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
+                            <i class="fas fa-leaf text-sm md:text-base"></i>
+                        </div>
+                        <div class="text-xl md:text-2xl font-black tracking-tight text-white">GrowwEco</div>
+                    </a>
+                    <p class="opacity-80 mb-6 text-sm md:text-base text-gray-300">
+                        Empowering individuals to make sustainable choices. Go green, live clean.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg md:text-xl font-bold mb-6 text-accent">Quick Links</h3>
+                    <ul class="space-y-3 text-sm md:text-base">
+                        <li><a href="index.html" class="text-white hover:text-primary transition font-medium">Home</a></li>
+                        <li><a href="impact.html" class="text-white hover:text-primary transition font-medium">Our Impact</a></li>
+                        <li><a href="#" class="text-white hover:text-primary transition font-medium">Our Brands</a></li>
+                        <li><a href="contact.html" class="text-white hover:text-primary transition font-medium">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg md:text-xl font-bold mb-6 text-accent">Support</h3>
+                    <ul class="space-y-3 text-sm md:text-base">
+                        <li><a href="faq.html" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Privacy Info</a></li>
+                        <li><a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Eco Guidelines</a></li>
+                        <li><a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Track Status</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg md:text-xl font-bold mb-6 text-accent">Newsletter</h3>
+                    <p class="opacity-80 mb-4 text-sm md:text-base text-gray-300">Get eco tips and community updates.</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Your email" class="w-full px-3 py-2 rounded bg-white/10 border border-white/20 text-white focus:outline-none focus:border-primary">
+                        <button class="bg-accent px-4 py-2 rounded text-black font-bold hover:bg-yellow-500 transition">Join</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm md:text-base text-white">
+                <p class="mb-4 md:mb-0 text-gray-300 font-medium">&copy; 2026 GrowwEco. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                    <a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 bg-accent text-black rounded-full shadow-lg hidden hover:bg-yellow-500 transition z-50 border border-black/10">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 1. Dark/Light Mode Logic
+        const desktopThemeToggleBtn = document.getElementById('desktop-theme-toggle-btn');
+        const desktopThemeIcon = document.getElementById('desktop-theme-icon');
+        const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+        const mobileThemeIcon = document.getElementById('mobile-theme-icon');
+        const htmlElement = document.documentElement;
+        
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', currentTheme);
+        if (currentTheme === 'dark') {
+            htmlElement.classList.add('dark');
+            if (desktopThemeIcon) desktopThemeIcon.classList.replace('fa-moon', 'fa-sun');
+            if (mobileThemeIcon) mobileThemeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        function toggleTheme() {
+            const isDark = htmlElement.getAttribute('data-theme') === 'dark';
+            const newTheme = isDark ? 'light' : 'dark';
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            if (newTheme === 'dark') { htmlElement.classList.add('dark'); } 
+            else { htmlElement.classList.remove('dark'); }
+            if (desktopThemeIcon) desktopThemeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            if (mobileThemeIcon) mobileThemeIcon.className = newTheme === 'dark' ? 'fas fa-sun text-sm' : 'fas fa-moon text-sm';
+        }
+        if (desktopThemeToggleBtn) desktopThemeToggleBtn.addEventListener('click', toggleTheme);
+        if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
+
+        // 2. RTL Logic
+        const desktopRtlToggleBtn = document.getElementById('desktop-rtl-toggle-btn');
+        const mobileRtlToggle = document.getElementById('mobile-rtl-toggle');
+        const currentDir = localStorage.getItem('direction') || 'ltr';
+        htmlElement.setAttribute('dir', currentDir);
+        
+        function toggleRTL() {
+            const direction = htmlElement.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl';
+            htmlElement.setAttribute('dir', direction);
+            localStorage.setItem('direction', direction);
+        }
+        if (desktopRtlToggleBtn) desktopRtlToggleBtn.addEventListener('click', toggleRTL);
+        if (mobileRtlToggle) mobileRtlToggle.addEventListener('click', toggleRTL);
+
+        // 3. Dropdowns & Menu Logic
+        function toggleDesktopDropdown(id) {
+            document.querySelectorAll('.dropdown').forEach(d => { if(d.id !== id) d.classList.remove('active'); });
+            document.getElementById(id).classList.toggle('active');
+        }
+        function toggleMobileDropdown(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+            }
+        });
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+        if(closeMobileMenu) closeMobileMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
+
+        // Scroll Top
+        const scrollTopBtn = document.getElementById('scroll-top');
+        window.addEventListener('scroll', () => { scrollTopBtn.classList.toggle('hidden', window.scrollY <= 300); });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // 4. DYNAMIC CONTENT LOGIC (The "Database")
+        const articlesDatabase = {
+            "1": {
+                title: "10 Easy Swaps for a Plastic-Free Kitchen",
+                category: "Guides",
+                date: "Oct 12, 2026",
+                readTime: "5 min read",
+                image: "Images/10 Easy Swaps for a Plastic-Free Kitchen.jpg",
+                content: `
+                    <p class="text-xl font-medium opacity-90 mb-8">Transform your kitchen into a zero-waste haven with these simple, cost-effective product swaps that eliminate single-use plastics without sacrificing convenience.</p>
+                    <h2>1. Ditch the Plastic Wrap for Beeswax</h2>
+                    <p>Plastic cling wrap is one of the most wasteful items in the modern kitchen. Used once and tossed, it ends up in landfills for centuries. Instead, swap it out for beeswax wraps. These are made from cotton infused with beeswax, jojoba oil, and tree resin. They are washable, reusable for up to a year, and fully compostable when they lose their grip.</p>
+                    <blockquote>"The kitchen is the heart of the home, but it's also where we generate the most waste. A few mindful swaps can reduce your family's trash output by 50%."</blockquote>
+                    <h2>2. Glass and Stainless Steel Containers</h2>
+                    <p>Throw away those stained, chemical-leaching plastic tupperwares. Opt for glass containers with bamboo or silicone lids. Not only do they look much cleaner and more organized in your fridge, but they also don't hold onto food smells and are infinitely recyclable.</p>
+                    <h2>3. Compostable Sponges and Brushes</h2>
+                    <p>Did you know regular kitchen sponges are made from synthetic plastics that shed microplastics down your drain with every wash? Switch to natural loofahs, wooden dish brushes with agave bristles, or cellulose sponges. They clean just as well and can go straight into your compost bin when they wear out.</p>
+                    <div class="bg-theme-alt p-6 rounded-xl border border-theme my-8">
+                        <h3 class="mt-0 text-primary">Pro Tip for Longevity</h3>
+                        <p class="mb-0 text-sm">To make your wooden dish brushes last longer, never leave them sitting in a puddle of water. Hang them or let them dry bristle-side down.</p>
+                    </div>
+                    <h2>Conclusion</h2>
+                    <p>Going plastic-free doesn't have to happen overnight. Start with one swap this week, get used to it, and move on to the next. Every single piece of plastic you refuse makes a difference to our oceans and our future.</p>`
+            },
+            "2": {
+                title: "New Global Climate Policies: What They Mean For You",
+                category: "News",
+                date: "Oct 08, 2026",
+                readTime: "3 min read",
+                image: "Images/New Global Climate Policie.jpg",
+                content: `
+                    <p class="text-xl font-medium opacity-90 mb-8">Breaking down the latest environmental summit decisions and how they impact everyday consumers and local businesses.</p>
+                    <h2>Understanding the New Regulations</h2>
+                    <p>The recent summit brought forth several strict guidelines on carbon emissions. What does this mean for the average household? Mainly, a shift towards renewable energy incentives and tighter restrictions on single-use plastics.</p>
+                    <h2>Impact on Local Businesses</h2>
+                    <p>Small businesses will receive grants to switch to sustainable packaging. Expect to see a lot more compostable mailers in your future orders. While costs might slightly increase initially, the long-term environmental payoff is enormous.</p>`
+            },
+            "3": {
+                title: "Meet the Artisans Behind Our Bamboo Collection",
+                category: "Interviews",
+                date: "Oct 02, 2026",
+                readTime: "8 min read",
+                image: "Images/Meet the Artisans Behind Our Bamboo Collection.jpg",
+                content: `
+                    <p class="text-xl font-medium opacity-90 mb-8">An exclusive interview with the incredible local craftsmen designing your favorite sustainable bamboo toothbrushes and cutlery.</p>
+                    <h2>The Craftsmanship</h2>
+                    <p>We sat down with Master Li, the lead artisan for our bamboo line. "Bamboo isn't just a wood," he says, "it's a rapidly renewable resource that requires respect when carving."</p>
+                    <blockquote>"We don't cut down forests; we trim the grass that grows back in weeks."</blockquote>
+                    <h2>Ethical Working Conditions</h2>
+                    <p>Ensuring that our creators are paid fair wages and work in safe, well-ventilated conditions is paramount. Every toothbrush purchased directly supports these artisan communities.</p>`
+            },
+            "4": {
+                title: "How to Composting in a Small Apartment",
+                category: "Tips",
+                date: "Sep 28, 2026",
+                readTime: "4 min read",
+                image: "Images/How to Composting in a Small Apartment.jpg",
+                content: `
+                    <p class="text-xl font-medium opacity-90 mb-8">No backyard? No problem! Discover effective, odor-free ways to compost your food scraps even in the tightest city apartments.</p>
+                    <h2>The Bokashi Method</h2>
+                    <p>Unlike traditional composting, Bokashi uses an anaerobic process. It ferments the waste rather than letting it rot, meaning absolutely no foul smells in your apartment. It's incredibly fast and perfect for indoor environments.</p>
+                    <h2>Countertop Bins</h2>
+                    <p>Invest in a sleek stainless steel countertop bin with a charcoal filter. It looks great, traps any potential fruit flies, and holds enough scraps to take to the community compost bin once a week.</p>`
+            },
+            "5": {
+                title: "Building a Sustainable Wardrobe on a Budget",
+                category: "Lifestyle",
+                date: "Sep 20, 2026",
+                readTime: "6 min read",
+                image: "Images/Building a Sustainable Wardrobe on a Budget.jpg",
+                content: `
+                    <p class="text-xl font-medium opacity-90 mb-8">Eco-friendly fashion shouldn't break the bank. Here are our top secrets to thrifting and building an ethical closet affordably.</p>
+                    <h2>The Rule of 30 Wears</h2>
+                    <p>Before buying any piece of clothing, ask yourself: "Will I wear this 30 times?" If the answer is no, leave it on the rack. This mindset shift alone drastically reduces overconsumption.</p>
+                    <h2>Thrifting Secrets</h2>
+                    <p>Look for natural fabrics like cotton, wool, and linen at the thrift store. They hold up longer, breathe better, and critically, they don't shed microplastics into our water systems every time you wash them.</p>`
+            },
+            "6": {
+                title: "The True Impact of Switching to Solar Energy",
+                category: "Guides",
+                date: "Sep 15, 2026",
+                readTime: "7 min read",
+                image: "Images/The True Impact of Switching to Solar Energy.jpg",
+                content: `
+                    <p class="text-xl font-medium opacity-90 mb-8">We analyze the costs, benefits, and long-term environmental impacts of outfitting your home with solar panels.</p>
+                    <h2>Cost vs. Benefit</h2>
+                    <p>While the initial installation fee is high, the average home pays off their solar panels within 7 to 8 years. After that, your electricity is essentially free, protecting you from rising utility rates.</p>
+                    <h2>Grid Independence</h2>
+                    <p>Coupled with a battery system, solar panels give you independence from the grid during blackouts and peak energy hours, making your home resilient and entirely powered by the sun.</p>`
+            }
+        };
+
+        // Load content based on URL parameter
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('id');
+
+            // If an ID exists and is in our database, replace the content
+            if (articleId && articlesDatabase[articleId]) {
+                const article = articlesDatabase[articleId];
+                
+                // Update Hero Background
+                document.getElementById('article-hero').style.backgroundImage = `url('${article.image}')`;
+                
+                // Update Text Elements
+                document.getElementById('dynamic-title').textContent = article.title;
+                document.getElementById('dynamic-category').textContent = article.category;
+                document.getElementById('dynamic-date').textContent = article.date;
+                document.getElementById('dynamic-read-time').textContent = article.readTime;
+                
+                // Update Content HTML
+                document.getElementById('dynamic-content').innerHTML = article.content;
+            }
+        });
+    </script>
+</body>
+</html>

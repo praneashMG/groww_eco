@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GrowwEco Blog - Sustainability Tips, Eco Lifestyle Guides, and Latest Articles.">
+    <title>Blog | GrowwEco</title>
+    
+    <link rel="icon" href="Images/growwpark_logo.jpg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2ECC71',   /* Fresh Green */
+                        secondary: '#FACC15', /* Warm Yellow */
+                        accent: '#FACC15',    /* Warm Yellow for Highlights */
+                        baseDark: '#111827',  /* Deep Gray/Black */
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary-color: #2ECC71; 
+            --secondary-color: #FACC15; 
+            --accent-color: #FACC15;
+            --base-dark: #111827;
+            --text-black: #000000;
+            --text-white: #FFFFFF;
+            
+            --bg-color: #FFFFFF;
+            --bg-alt: #F9FAFB;
+            --card-bg: #FFFFFF;    
+            --text-main: #1F2937;
+            --text-heading: #000000;
+            --navbar-bg: #FFFFFF;
+            --nav-text: #000000;
+            --border-color: #E5E7EB;
+            --dropdown-bg: #FFFFFF;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #2ECC71;      
+            --secondary-color: #FACC15;
+            --accent-color: #FACC15;     
+            --bg-color: #111827;
+            --bg-alt: #1F2937;  
+            --card-bg: #374151;  
+            --text-main: #F3F4F6;
+            --text-heading: #FFFFFF;
+            --navbar-bg: #111827;
+            --nav-text: #FFFFFF;
+            --border-color: #4B5563;
+            --dropdown-bg: #374151;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        h1, h2, h3, h4, h5, h6 { color: var(--text-heading); }
+        p { color: var(--text-main); }
+        
+        .bg-theme-main { background-color: var(--bg-color); }
+        .bg-theme-alt { background-color: var(--bg-alt); }
+        .bg-card-theme { background-color: var(--card-bg); }
+        .text-heading-theme { color: var(--text-heading) !important; }
+        .text-body-theme { color: var(--text-main) !important; }
+        .border-theme { border-color: var(--border-color) !important; }
+        
+        .bg-primary { background-color: var(--primary-color) !important; }
+        .bg-secondary { background-color: var(--secondary-color) !important; }
+        .text-primary { color: var(--primary-color) !important; }
+        .text-secondary { color: var(--secondary-color) !important; }
+
+        /* Navbar Styles */
+        .navbar-container {
+            background-color: var(--navbar-bg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .nav-link {
+            color: var(--nav-text);
+            padding: 8px 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .nav-link:hover { color: var(--primary-color); }
+        .nav-link.active { color: var(--primary-color); font-weight: 700; }
+        
+        .navbar-brand-text { color: var(--nav-text); }
+
+        /* Nav Icon Buttons */
+        .nav-icon-btn {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--nav-text);
+        }
+        [data-theme="dark"] .nav-icon-btn {
+            background-color: rgba(250, 204, 21, 0.1);
+        }
+
+        /* Dropdowns */
+        .dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        .dropdown:hover .dropdown-menu, .dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: var(--nav-text);
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        .dropdown-item:hover {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--primary-color);
+            padding-left: 25px;
+        }
+        .dropdown-arrow { font-size: 0.7rem; transition: transform 0.3s ease; }
+        .dropdown:hover .dropdown-arrow { transform: rotate(180deg); }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up { animation: fadeInUp 0.6s ease-out; }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            background-color: var(--bg-color);
+        }
+        .mobile-menu.active { transform: translateX(0); }
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding-left: 20px;
+            background-color: var(--bg-alt);
+            border-radius: 8px;
+        }
+        .mobile-dropdown-content.active { max-height: 500px; margin: 5px 0; }
+        
+        /* Text Gradients */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        #mobile-menu-btn:active { transform: scale(0.9); }
+        
+        @media (max-width: 1279px) {
+            .desktop-nav, .navbar-right-desktop { display: none !important; }
+            .mobile-menu-button { display: flex !important; }
+        }
+        @media (min-width: 1280px) {
+            .desktop-nav { display: flex !important; }
+            .navbar-right-desktop { display: flex !important; }
+            .mobile-menu-button { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar" class="navbar-container py-3 fixed top-0 w-full z-[1000]">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                
+                <a href="index.html" class="flex items-center gap-2 no-underline transition-transform duration-300 hover:scale-105">
+                    <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
+                        <i class="fas fa-leaf text-sm md:text-base"></i>
+                    </div>
+                    <div class="text-xl md:text-2xl font-black tracking-tight navbar-brand-text">GrowwEco</div>
+                </a>
+                
+                <div class="desktop-nav items-center space-x-1 lg:space-x-2">
+                    <div class="dropdown" id="home-dropdown">
+                        <div class="nav-link" onclick="toggleDesktopDropdown('home-dropdown')">
+                            Home <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item">Home 1</a>
+                            <a href="home2.html" class="dropdown-item">Home 2</a>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="impact.html" class="nav-link">Impact</a>
+                    <a href="product.html" class="nav-link">Product</a>
+                    <a href="blog.html" class="nav-link active">Blog</a>
+                    <a href="faq.html" class="nav-link">FAQ</a>
+                    <a href="pricing.html" class="nav-link">Pricing</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+
+                    <div class="dropdown" id="dashboard-dropdown">
+                        <div class="nav-link" onclick="toggleDesktopDropdown('dashboard-dropdown')">
+                            Dashboard <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="user-dashboard.html" class="dropdown-item"><i class="fas fa-user mr-2 text-primary"></i> User</a>
+                            <a href="admin-dashboard.html" class="dropdown-item"><i class="fas fa-user-shield mr-2 text-primary"></i> Admin</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="navbar-right-desktop flex items-center gap-2 lg:gap-3">
+                    <button class="w-10 h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-theme-toggle-btn" title="Toggle Dark/Light Mode">
+                        <i class="fas fa-moon" id="desktop-theme-icon"></i>
+                    </button>
+                    <button class="w-10 h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-rtl-toggle-btn" title="Toggle RTL">
+                        <i class="fas fa-language"></i>
+                    </button>
+                    <a href="login.html" class="bg-primary text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:bg-green-700 shadow-lg flex items-center gap-2">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                </div>
+                
+                <button id="mobile-menu-btn" class="nav-icon-btn text-xl cursor-pointer p-2 rounded-lg w-10 h-10 flex items-center justify-center mobile-menu-button">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 w-full h-full z-[9999] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8 border-b border-theme pb-4">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
+                        <i class="fas fa-leaf text-sm"></i>
+                    </div>
+                    <span class="text-lg font-black tracking-tight text-heading-theme hidden sm:block">GrowwEco</span>
+                </a>
+                
+                <div class="flex items-center gap-1 sm:gap-2">
+                    <button class="w-8 h-8 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="mobile-theme-toggle" title="Toggle Dark/Light Mode">
+                        <i class="fas fa-moon text-sm" id="mobile-theme-icon"></i>
+                    </button>
+                    
+                    <button class="w-8 h-8 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="mobile-rtl-toggle" title="Toggle RTL">
+                        <i class="fas fa-language text-sm"></i>
+                    </button>
+                    
+                    <a href="login.html" class="bg-primary text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-all hover:bg-green-700" title="Login">
+                        <i class="fas fa-user text-sm"></i>
+                    </a>
+                    
+                    <button id="close-mobile-menu" class="text-heading-theme text-2xl ml-1 transition-transform active:scale-90 border-none bg-transparent cursor-pointer">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="space-y-1">
+                <div>
+                    <button id="mobile-home-link" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline cursor-pointer border-0 bg-transparent" onclick="toggleMobileDropdown('home-mobile')">
+                        <span><i class="fas fa-home mr-2 text-primary"></i> Home</span>
+                        <i class="fas fa-chevron-down dropdown-arrow text-body-theme"></i>
+                    </button>
+                    <div id="home-mobile" class="mobile-dropdown-content">
+                        <a href="index.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Home 1</a>
+                        <a href="home2.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Home 2</a>
+                    </div>
+                </div>
+
+                <a href="about.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-info-circle mr-2 text-primary"></i> About</span>
+                </a>
+                <a href="impact.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-globe mr-2 text-primary"></i> Impact</span>
+                </a>
+                <a href="product.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-box-open mr-2 text-primary"></i> Product</span>
+                </a>
+                <a href="blog.html" class="flex items-center justify-between w-full text-primary text-lg font-bold py-3 no-underline">
+                    <span><i class="fas fa-leaf mr-2"></i> Blog</span>
+                </a>
+                <a href="faq.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-question-circle mr-2 text-primary"></i> FAQ</span>
+                </a>
+                <a href="pricing.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-tags mr-2 text-primary"></i> Pricing</span>
+                </a>
+                <a href="contact.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
+                    <span><i class="fas fa-envelope mr-2 text-primary"></i> Contact</span>
+                </a>
+                
+                <div>
+                    <button class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline cursor-pointer border-0 bg-transparent" onclick="toggleMobileDropdown('dashboard-mobile')">
+                        <span><i class="fas fa-tachometer-alt mr-2 text-primary"></i> Dashboard</span>
+                        <i class="fas fa-chevron-down dropdown-arrow text-body-theme"></i>
+                    </button>
+                    <div id="dashboard-mobile" class="mobile-dropdown-content">
+                        <a href="user-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">User Dashboard</a>
+                        <a href="admin-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Admin Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="min-h-screen pt-[100px] relative overflow-hidden flex items-center justify-center bg-cover bg-center bg-no-repeat" style="background-image: url('Images/heroblog.jpg');">
+        <div class="absolute inset-0 bg-black/60 pointer-events-none z-0"></div>
+        
+        <div class="container mx-auto px-4 relative z-10 py-16">
+            <div class="text-center max-w-3xl mx-auto fade-in-up">
+                <span class="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Insights & Ideas</span>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black mb-6 leading-tight text-white">
+                    The <span class="gradient-text">GrowwEco</span> Blog
+                </h1>
+                <p class="text-lg md:text-xl text-gray-200 mb-8 opacity-90">
+                    Your go-to source for zero-waste living, sustainable product guides, and environmental news. Read, learn, and grow with our community.
+                </p>
+                <div class="relative max-w-lg mx-auto">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Search for articles, tips, or guides..." class="w-full pl-12 pr-4 py-4 rounded-full border border-theme bg-card-theme text-body-theme shadow-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-24 bg-theme-main border-b border-theme">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <span class="text-primary font-bold tracking-wider uppercase text-sm block mb-1">Fresh Reads</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-heading-theme">Latest Articles</h2>
+                </div>
+                <a href="#" class="hidden md:flex items-center gap-2 text-primary font-bold hover:text-green-700 transition-colors">
+                    View All Posts <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <a href="blog-detail.html?id=1" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
+                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                        <img src="Images/10 Easy Swaps for a Plastic-Free Kitchen.jpg" alt="10 Easy Swaps for a Plastic-Free Kitchen" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=60'">
+                        <div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Guides</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="text-sm text-body-theme opacity-70 mb-2 flex items-center gap-4">
+                            <span><i class="far fa-calendar-alt mr-1"></i> Oct 12, 2026</span>
+                            <span><i class="far fa-clock mr-1"></i> 5 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">10 Easy Swaps for a Plastic-Free Kitchen</h3>
+                        <p class="text-body-theme text-sm mb-4 line-clamp-3 flex-grow">Transform your kitchen into a zero-waste haven with these simple, cost-effective product swaps that eliminate single-use plastics.</p>
+                        <span class="inline-block text-primary font-bold mt-auto group-hover:underline">Read Article &rarr;</span>
+                    </div>
+                </a>
+
+                <a href="blog-detail.html?id=2" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
+                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                        <img src="Images/New Global Climate Policie.jpg" alt="New Global Climate Policies" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=600&auto=format&fit=crop&q=60'">
+                        <div class="absolute top-4 left-4 bg-secondary text-black text-xs font-bold px-3 py-1 rounded-full">News</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="text-sm text-body-theme opacity-70 mb-2 flex items-center gap-4">
+                            <span><i class="far fa-calendar-alt mr-1"></i> Oct 08, 2026</span>
+                            <span><i class="far fa-clock mr-1"></i> 3 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">New Global Climate Policies: What They Mean For You</h3>
+                        <p class="text-body-theme text-sm mb-4 line-clamp-3 flex-grow">Breaking down the latest environmental summit decisions and how they impact everyday consumers and local businesses.</p>
+                        <span class="inline-block text-primary font-bold mt-auto group-hover:underline">Read Article &rarr;</span>
+                    </div>
+                </a>
+
+                <a href="blog-detail.html?id=3" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
+                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                        <img src="Images/Meet the Artisans Behind Our Bamboo Collection.jpg" alt="Meet the Artisans Behind Our Bamboo Collection" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=600&auto=format&fit=crop&q=60'">
+                        <div class="absolute top-4 left-4 bg-baseDark text-white text-xs font-bold px-3 py-1 rounded-full">Interviews</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="text-sm text-body-theme opacity-70 mb-2 flex items-center gap-4">
+                            <span><i class="far fa-calendar-alt mr-1"></i> Oct 02, 2026</span>
+                            <span><i class="far fa-clock mr-1"></i> 8 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">Meet the Artisans Behind Our Bamboo Collection</h3>
+                        <p class="text-body-theme text-sm mb-4 line-clamp-3 flex-grow">An exclusive interview with the incredible local craftsmen designing your favorite sustainable bamboo toothbrushes and cutlery.</p>
+                        <span class="inline-block text-primary font-bold mt-auto group-hover:underline">Read Article &rarr;</span>
+                    </div>
+                </a>
+
+                <a href="blog-detail.html?id=4" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
+                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                        <img src="Images/How to Composting in a Small Apartment.jpg" alt="How to Composting in a Small Apartment" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?w=600&auto=format&fit=crop&q=60'">
+                        <div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Tips</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="text-sm text-body-theme opacity-70 mb-2 flex items-center gap-4">
+                            <span><i class="far fa-calendar-alt mr-1"></i> Sep 28, 2026</span>
+                            <span><i class="far fa-clock mr-1"></i> 4 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">How to Composting in a Small Apartment</h3>
+                        <p class="text-body-theme text-sm mb-4 line-clamp-3 flex-grow">No backyard? No problem! Discover effective, odor-free ways to compost your food scraps even in the tightest city apartments.</p>
+                        <span class="inline-block text-primary font-bold mt-auto group-hover:underline">Read Article &rarr;</span>
+                    </div>
+                </a>
+
+                <a href="blog-detail.html?id=5" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
+                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                        <img src="Images/Building a Sustainable Wardrobe on a Budget.jpg" alt="Building a Sustainable Wardrobe on a Budget" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&auto=format&fit=crop&q=60'">
+                        <div class="absolute top-4 left-4 bg-secondary text-black text-xs font-bold px-3 py-1 rounded-full">Lifestyle</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="text-sm text-body-theme opacity-70 mb-2 flex items-center gap-4">
+                            <span><i class="far fa-calendar-alt mr-1"></i> Sep 20, 2026</span>
+                            <span><i class="far fa-clock mr-1"></i> 6 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">Building a Sustainable Wardrobe on a Budget</h3>
+                        <p class="text-body-theme text-sm mb-4 line-clamp-3 flex-grow">Eco-friendly fashion shouldn't break the bank. Here are our top secrets to thrifting and building an ethical closet affordably.</p>
+                        <span class="inline-block text-primary font-bold mt-auto group-hover:underline">Read Article &rarr;</span>
+                    </div>
+                </a>
+
+                <a href="blog-detail.html?id=6" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
+                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                        <img src="Images/The True Impact of Switching to Solar Energy.jpg" alt="The True Impact of Switching to Solar Energy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1518837695005-2083093ee354?w=600&auto=format&fit=crop&q=60'">
+                        <div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Guides</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="text-sm text-body-theme opacity-70 mb-2 flex items-center gap-4">
+                            <span><i class="far fa-calendar-alt mr-1"></i> Sep 15, 2026</span>
+                            <span><i class="far fa-clock mr-1"></i> 7 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">The True Impact of Switching to Solar Energy</h3>
+                        <p class="text-body-theme text-sm mb-4 line-clamp-3 flex-grow">We analyze the costs, benefits, and long-term environmental impacts of outfitting your home with solar panels.</p>
+                        <span class="inline-block text-primary font-bold mt-auto group-hover:underline">Read Article &rarr;</span>
+                    </div>
+                </a>
+
+            </div>
+            
+            <div class="mt-8 text-center md:hidden">
+                <a href="#" class="inline-flex items-center gap-2 text-primary font-bold hover:text-green-700 transition-colors">
+                    View All Posts <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-theme-alt border-b border-theme">
+        <div class="container mx-auto px-4 text-center max-w-4xl">
+            <span class="text-primary font-bold tracking-wider uppercase text-sm block mb-2">Take Action</span>
+            <h2 class="text-3xl md:text-4xl font-black text-heading-theme mb-8">Weekly Green Challenge</h2>
+            
+            <div class="bg-card-theme rounded-3xl p-8 md:p-12 border border-primary/30 shadow-sm transition-all hover:shadow-md relative overflow-hidden">
+                <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="relative z-10">
+                    <i class="fas fa-seedling text-5xl text-primary mb-6 drop-shadow-sm"></i>
+                    <h3 class="text-2xl md:text-3xl font-bold text-heading-theme mb-4">Zero Food Waste Week</h3>
+                    <p class="text-body-theme text-lg mb-8 max-w-2xl mx-auto opacity-90">
+                        This week, we challenge you to use absolutely every part of your groceries! Turn vegetable scraps into rich broth, freeze overripe fruits for smoothies, and compost the rest. 
+                    </p>
+                    <button class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition-all shadow-md active:scale-95">
+                        Accept The Challenge
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-20 bg-theme-main border-b border-theme">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <div class="text-center mb-12">
+                <span class="text-primary font-bold tracking-wider uppercase text-sm block mb-2">Inspiration</span>
+                <h2 class="text-3xl md:text-4xl font-black text-heading-theme">Community Spotlight</h2>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 text-left bg-theme-alt p-8 md:p-10 rounded-3xl border border-theme shadow-sm">
+                <div class="shrink-0 relative">
+                    <div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-primary shadow-lg z-10 relative">
+                        <img src="Images/David Ross.jpg" alt="David Ross" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&auto=format&fit=crop&q=60'">
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 bg-accent text-black w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-md z-20">
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                </div>
+                
+                <div class="flex-1 text-center md:text-left">
+                    <p class="text-xl md:text-2xl text-body-theme italic font-medium mb-6 leading-relaxed">
+                        "Going green isn't about one person doing it perfectly. It's about millions of people doing it imperfectly. Start small, swap one item at a time, and watch your impact grow."
+                    </p>
+                    <h4 class="font-black text-xl text-heading-theme mb-1">David Ross</h4>
+                    <p class="text-sm text-primary font-bold uppercase tracking-wide">Eco-Activist & Member since 2024</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-24 bg-theme-alt">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-primary font-bold tracking-wider uppercase text-sm block mb-1">Quick Wins</span>
+                <h2 class="text-3xl md:text-4xl font-black text-heading-theme">Sustainability Tips</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-card-theme p-6 rounded-2xl border border-theme hover:border-primary transition-colors text-center shadow-sm">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-plug text-2xl text-primary"></i>
+                    </div>
+                    <h4 class="font-bold text-heading-theme mb-2">Unplug Devices</h4>
+                    <p class="text-sm text-body-theme">Vampire power drains energy. Unplug electronics when fully charged or not in use.</p>
+                </div>
+                
+                <div class="bg-card-theme p-6 rounded-2xl border border-theme hover:border-primary transition-colors text-center shadow-sm">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shopping-bag text-2xl text-primary"></i>
+                    </div>
+                    <h4 class="font-bold text-heading-theme mb-2">BYO Bags</h4>
+                    <p class="text-sm text-body-theme">Keep reusable canvas bags in your car or backpack so you never forget them.</p>
+                </div>
+
+                <div class="bg-card-theme p-6 rounded-2xl border border-theme hover:border-primary transition-colors text-center shadow-sm">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-tint text-2xl text-primary"></i>
+                    </div>
+                    <h4 class="font-bold text-heading-theme mb-2">Cold Water Wash</h4>
+                    <p class="text-sm text-body-theme">Wash clothes in cold water. It saves energy and helps your clothes last much longer.</p>
+                </div>
+
+                <div class="bg-card-theme p-6 rounded-2xl border border-theme hover:border-primary transition-colors text-center shadow-sm">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-carrot text-2xl text-primary"></i>
+                    </div>
+                    <h4 class="font-bold text-heading-theme mb-2">Meatless Mondays</h4>
+                    <p class="text-sm text-body-theme">Skipping meat just one day a week significantly reduces your personal carbon footprint.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-20 bg-primary relative overflow-hidden">
+        <i class="fas fa-envelope-open-text absolute -right-10 -bottom-10 text-[15rem] text-white opacity-10 rotate-12 pointer-events-none"></i>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-black text-white mb-4">Join Our Green Community</h2>
+                <p class="text-white opacity-90 mb-8 text-lg">
+                    Subscribe to our newsletter for exclusive eco-tips, new article alerts, and special discounts on sustainable products straight to your inbox. No spam, just pure green goodness.
+                </p>
+                
+                <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="event.preventDefault();">
+                    <input type="email" placeholder="Enter your email address..." class="flex-grow px-5 py-3 rounded-lg border-0 bg-white text-black focus:outline-none focus:ring-2 focus:ring-accent font-medium shadow-md" required>
+                    <button type="submit" class="bg-baseDark text-white px-8 py-3 rounded-lg font-bold hover:bg-black transition-colors shadow-md whitespace-nowrap">
+                        Subscribe Now
+                    </button>
+                </form>
+                <p class="text-white/70 text-xs mt-4">By subscribing, you agree to our Privacy Policy and consent to receive updates.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-baseDark text-white py-12 md:py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
+                <div>
+                    <a href="index.html" class="flex items-center gap-2 mb-6 no-underline transition-transform duration-300 hover:scale-105">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
+                            <i class="fas fa-leaf text-sm md:text-base"></i>
+                        </div>
+                        <div class="text-xl md:text-2xl font-black tracking-tight text-white">GrowwEco</div>
+                    </a>
+                    <p class="opacity-80 mb-6 text-sm md:text-base text-gray-300">
+                        Empowering individuals to make sustainable choices. Go green, live clean.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg md:text-xl font-bold mb-6 text-accent">Quick Links</h3>
+                    <ul class="space-y-3 text-sm md:text-base">
+                        <li><a href="index.html" class="text-white hover:text-primary transition font-medium">Home</a></li>
+                        <li><a href="impact.html" class="text-white hover:text-primary transition font-medium">Our Impact</a></li>
+                        <li><a href="#" class="text-white hover:text-primary transition font-medium">Our Brands</a></li>
+                        <li><a href="contact.html" class="text-white hover:text-primary transition font-medium">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg md:text-xl font-bold mb-6 text-accent">Support</h3>
+                    <ul class="space-y-3 text-sm md:text-base">
+                        <li><a href="faq.html" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Privacy Info</a></li>
+                        <li><a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Eco Guidelines</a></li>
+                        <li><a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Track Status</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg md:text-xl font-bold mb-6 text-accent">Newsletter</h3>
+                    <p class="opacity-80 mb-4 text-sm md:text-base text-gray-300">Get eco tips and community updates.</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Your email" class="w-full px-3 py-2 rounded bg-white/10 border border-white/20 text-white focus:outline-none focus:border-primary">
+                        <button class="bg-accent px-4 py-2 rounded text-black font-bold hover:bg-yellow-500 transition">Join</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm md:text-base text-white">
+                <p class="mb-4 md:mb-0 text-gray-300 font-medium">&copy; 2026 GrowwEco. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                    <a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 bg-accent text-black rounded-full shadow-lg hidden hover:bg-yellow-500 transition z-50 border border-black/10">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Toggle Logic
+        const desktopThemeToggleBtn = document.getElementById('desktop-theme-toggle-btn');
+        const desktopThemeIcon = document.getElementById('desktop-theme-icon');
+        const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+        const mobileThemeIcon = document.getElementById('mobile-theme-icon');
+        const htmlElement = document.documentElement;
+        
+        // Initialize Theme
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', currentTheme);
+        if (currentTheme === 'dark') {
+            htmlElement.classList.add('dark');
+            if (desktopThemeIcon) desktopThemeIcon.classList.replace('fa-moon', 'fa-sun');
+            if (mobileThemeIcon) mobileThemeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        function toggleTheme() {
+            const isDark = htmlElement.getAttribute('data-theme') === 'dark';
+            const newTheme = isDark ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            if (newTheme === 'dark') {
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+            }
+            
+            if (desktopThemeIcon) {
+                desktopThemeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            if (mobileThemeIcon) {
+                mobileThemeIcon.className = newTheme === 'dark' ? 'fas fa-sun text-sm' : 'fas fa-moon text-sm';
+            }
+        }
+
+        if (desktopThemeToggleBtn) desktopThemeToggleBtn.addEventListener('click', toggleTheme);
+        if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
+        
+        // Desktop RTL Toggle
+        const desktopRtlToggleBtn = document.getElementById('desktop-rtl-toggle-btn');
+        const mobileRtlToggle = document.getElementById('mobile-rtl-toggle');
+        const currentDir = localStorage.getItem('direction') || 'ltr';
+        
+        htmlElement.setAttribute('dir', currentDir);
+        
+        function toggleRTL() {
+            const direction = htmlElement.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl';
+            htmlElement.setAttribute('dir', direction);
+            localStorage.setItem('direction', direction);
+        }
+        
+        if (desktopRtlToggleBtn) desktopRtlToggleBtn.addEventListener('click', toggleRTL);
+        if (mobileRtlToggle) mobileRtlToggle.addEventListener('click', toggleRTL);
+
+        // Dropdowns & Menu
+        function toggleDesktopDropdown(id) {
+            document.querySelectorAll('.dropdown').forEach(d => {
+                if(d.id !== id) d.classList.remove('active');
+            });
+            document.getElementById(id).classList.toggle('active');
+        }
+        
+        function toggleMobileDropdown(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+            }
+        });
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+
+        if(mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+        }
+        if(closeMobileMenu) {
+            closeMobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        }
+
+        // Active State Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+            
+            document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+                    link.classList.add('active');
+                    const parent = link.closest('.dropdown');
+                    if(parent) parent.querySelector('.nav-link').classList.add('active');
+                }
+            });
+
+            if (currentPath === 'index.html' || currentPath === '') {
+                const mobileHomeBtn = document.getElementById('mobile-home-link');
+                if (mobileHomeBtn) {
+                    mobileHomeBtn.classList.add('text-primary'); 
+                }
+            }
+        });
+
+        // Scroll Top
+        const scrollTopBtn = document.getElementById('scroll-top');
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('hidden', window.scrollY <= 300);
+        });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        
+        window.addEventListener('resize', () => {
+            if(window.innerWidth >= 1280) mobileMenu.classList.remove('active');
+        });
+    </script>
+</body>
+</html>

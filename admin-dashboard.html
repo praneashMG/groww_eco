@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GrowwEco - Admin Dashboard">
+    <title>Admin Dashboard | GrowwEco</title>
+    
+    <link rel="icon" href="Images/growwpark_logo.jpg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2ECC71',   /* Fresh Green */
+                        secondary: '#FACC15', /* Warm Yellow */
+                        accent: '#FACC15',    /* Warm Yellow for Highlights */
+                        baseDark: '#111827',  /* Deep Gray/Black */
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary-color: #2ECC71; 
+            --secondary-color: #FACC15; 
+            --accent-color: #FACC15;
+            --base-dark: #111827;
+            --text-black: #000000;
+            --text-white: #FFFFFF;
+            
+            --bg-color: #F3F4F6; /* Slightly gray background for dashboard contrast */
+            --bg-alt: #FFFFFF;
+            --card-bg: #FFFFFF;    
+            --text-main: #374151;
+            --text-heading: #111827;
+            --navbar-bg: #FFFFFF;
+            --nav-text: #111827;
+            --border-color: #E5E7EB;
+            --sidebar-bg: #FFFFFF;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #2ECC71;      
+            --secondary-color: #FACC15;
+            --accent-color: #FACC15;     
+            --bg-color: #0F172A; /* Deep dark background */
+            --bg-alt: #1E293B;  
+            --card-bg: #1E293B;  
+            --text-main: #9CA3AF;
+            --text-heading: #F9FAFB;
+            --navbar-bg: #1E293B;
+            --nav-text: #F9FAFB;
+            --border-color: #334155;
+            --sidebar-bg: #1E293B;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body { 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; /* Prevent body scroll, handle scroll in content area */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        h1, h2, h3, h4, h5, h6 { color: var(--text-heading); }
+        p, span, div { color: var(--text-main); }
+        
+        .bg-theme-main { background-color: var(--bg-color); }
+        .bg-theme-alt { background-color: var(--bg-alt); }
+        .bg-card-theme { background-color: var(--card-bg); }
+        .text-heading-theme { color: var(--text-heading) !important; }
+        .text-body-theme { color: var(--text-main) !important; }
+        .border-theme { border-color: var(--border-color) !important; }
+        
+        /* Navbar Styles */
+        .navbar-container {
+            background-color: var(--navbar-bg);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            height: 70px;
+        }
+
+        /* Nav Icon Buttons */
+        .nav-icon-btn {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--nav-text);
+        }
+        [data-theme="dark"] .nav-icon-btn {
+            background-color: rgba(250, 204, 21, 0.1);
+            color: #FFFFFF;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .nav-item {
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+        .nav-item:hover {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--primary-color);
+        }
+        .nav-item.active {
+            background-color: var(--primary-color);
+            color: #FFFFFF !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="flex flex-col">
+
+    <nav class="navbar-container flex items-center justify-between px-3 md:px-8 shrink-0 z-50 relative shadow-sm">
+        
+        <a href="index.html" class="flex items-center gap-2 no-underline transition-transform duration-300 hover:scale-105 shrink-0">
+            <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
+                <i class="fas fa-leaf text-sm md:text-base"></i>
+            </div>
+            <div class="text-base sm:text-xl md:text-2xl font-black tracking-tight text-heading-theme flex items-center">
+                GrowwEco 
+               
+            </div>
+        </a>
+
+        <div class="flex items-center gap-1 sm:gap-3">
+            
+            <button class="w-8 h-8 sm:w-10 sm:h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-theme-toggle-btn" title="Toggle Dark/Light Mode">
+                <i class="fas fa-moon text-sm sm:text-base" id="desktop-theme-icon"></i>
+            </button>
+            
+            <button class="w-8 h-8 sm:w-10 sm:h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-rtl-toggle-btn" title="Toggle RTL">
+                <i class="fas fa-language text-sm sm:text-base"></i>
+            </button>
+
+            <a href="login.html" class="bg-primary text-white px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-lg font-bold text-xs sm:text-sm transition-all hover:bg-green-700 shadow-md flex items-center shrink-0">
+                Logout
+            </a>
+
+            <button id="mobileMenuBtn" class="sm:hidden nav-icon-btn text-base cursor-pointer rounded-lg w-8 h-8 flex items-center justify-center border-none bg-transparent ml-1 shrink-0">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="flex flex-1 overflow-hidden">
+        
+        <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 z-40 w-64 pt-4 pb-6 px-4 transform -translate-x-full sm:relative sm:translate-x-0 transition-transform duration-300 flex flex-col justify-between overflow-y-auto">
+            
+            <div class="sm:hidden mb-4 flex justify-between items-center border-b border-theme pb-4">
+                <a href="index.html" class="flex items-center gap-2 no-underline">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
+                        <i class="fas fa-leaf text-sm"></i>
+                    </div>
+                    <span class="text-lg font-black tracking-tight text-heading-theme">Admin</span>
+                </a>
+                <button id="closeMenuBtn" class="text-heading-theme text-2xl transition-transform active:scale-90 border-none bg-transparent cursor-pointer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="space-y-1 sm:mt-4">
+                <div class="px-4 py-2 mb-2">
+                    <p class="text-xs font-bold uppercase tracking-wider opacity-60 text-heading-theme">Store Management</p>
+                </div>
+                
+                <a href="#" class="nav-item active block px-4 py-3 rounded-xl font-medium text-sm">
+                    Dashboard Overview
+                </a>
+                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
+                    Orders & Logistics
+                </a>
+                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
+                    Product Inventory
+                </a>
+                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
+                    Customer Directory
+                </a>
+            </div>
+
+            <div class="space-y-1 mt-8">
+                <div class="px-4 py-2 mb-2 border-t border-theme pt-6">
+                    <p class="text-xs font-bold uppercase tracking-wider opacity-60 text-heading-theme">Analytics & Config</p>
+                </div>
+                
+                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
+                    Global Eco Impact
+                </a>
+                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
+                    Sales Reports
+                </a>
+                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
+                    Store Settings
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 relative">
+            
+            <div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-black text-heading-theme mb-2">Admin Command Center</h1>
+                    <p class="text-body-theme text-sm md:text-base">Monitor your store's performance and environmental impact.</p>
+                </div>
+                <button class="bg-primary hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-sm transition-colors text-sm w-max">
+                    + Add New Product
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                
+                <div class="bg-card-theme p-6 rounded-2xl shadow-sm border border-theme flex flex-col justify-between h-32 border-l-4 border-l-primary">
+                    <p class="text-xs font-bold uppercase tracking-wider opacity-70 text-body-theme">Total Revenue (30d)</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-4xl font-black text-primary">$45,230</h3>
+                        <span class="text-sm font-bold text-primary bg-primary/10 px-2 py-1 rounded">+12%</span>
+                    </div>
+                </div>
+
+                <div class="bg-card-theme p-6 rounded-2xl shadow-sm border border-theme flex flex-col justify-between h-32 border-l-4 border-l-blue-500">
+                    <p class="text-xs font-bold uppercase tracking-wider opacity-70 text-body-theme">Pending Orders</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-4xl font-black text-heading-theme">142</h3>
+                        <span class="text-sm font-bold text-blue-500 bg-blue-500/10 px-2 py-1 rounded">Needs Action</span>
+                    </div>
+                </div>
+
+                <div class="bg-card-theme p-6 rounded-2xl shadow-sm border border-theme flex flex-col justify-between h-32 border-l-4 border-l-secondary">
+                    <p class="text-xs font-bold uppercase tracking-wider opacity-70 text-body-theme">Global Trees Planted</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-4xl font-black text-heading-theme">15,400</h3>
+                        <span class="text-sm font-bold text-yellow-600 dark:text-secondary bg-secondary/10 px-2 py-1 rounded">Impact</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <div class="lg:col-span-2 bg-card-theme rounded-2xl shadow-sm border border-theme overflow-hidden flex flex-col">
+                    <div class="p-6 border-b border-theme flex justify-between items-center">
+                        <h2 class="text-xl font-bold text-heading-theme">Recent Customer Orders</h2>
+                        <a href="#" class="text-sm font-bold text-primary hover:underline">View All Orders</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse min-w-[600px]">
+                            <thead>
+                                <tr class="bg-theme-main text-body-theme text-xs uppercase tracking-wider">
+                                    <th class="px-6 py-4 font-bold border-b border-theme">Order ID</th>
+                                    <th class="px-6 py-4 font-bold border-b border-theme">Customer</th>
+                                    <th class="px-6 py-4 font-bold border-b border-theme">Amount</th>
+                                    <th class="px-6 py-4 font-bold border-b border-theme">Status</th>
+                                    <th class="px-6 py-4 font-bold border-b border-theme text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm text-heading-theme divide-y divide-[var(--border-color)]">
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-primary">#GE-9021</td>
+                                    <td class="px-6 py-4 text-heading-theme font-medium">Sarah Jenkins</td>
+                                    <td class="px-6 py-4 font-medium">$45.00</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 py-1 px-3 rounded-full text-xs font-bold">Processing</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-xs font-bold text-body-theme hover:text-primary transition-colors border border-theme px-3 py-1.5 rounded">Manage</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-primary">#GE-8944</td>
+                                    <td class="px-6 py-4 text-heading-theme font-medium">Michael Chen</td>
+                                    <td class="px-6 py-4 font-medium">$120.50</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 py-1 px-3 rounded-full text-xs font-bold">Pending Pack</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-xs font-bold text-body-theme hover:text-primary transition-colors border border-theme px-3 py-1.5 rounded">Manage</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-primary">#GE-8710</td>
+                                    <td class="px-6 py-4 text-heading-theme font-medium">Amanda Torres</td>
+                                    <td class="px-6 py-4 font-medium">$29.99</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 py-1 px-3 rounded-full text-xs font-bold">Shipped</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-xs font-bold text-body-theme hover:text-primary transition-colors border border-theme px-3 py-1.5 rounded">Manage</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-primary">#GE-8552</td>
+                                    <td class="px-6 py-4 text-heading-theme font-medium">David Ross</td>
+                                    <td class="px-6 py-4 font-medium">$85.00</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 py-1 px-3 rounded-full text-xs font-bold">Delivered</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-xs font-bold text-body-theme hover:text-primary transition-colors border border-theme px-3 py-1.5 rounded">Manage</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col h-full">
+                    <h2 class="text-xl font-bold text-heading-theme mb-6 text-red-500">Low Stock Alerts</h2>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex justify-between items-center border-b border-theme pb-3">
+                            <div>
+                                <p class="font-bold text-heading-theme text-sm">Bamboo Toothbrushes (Pack of 4)</p>
+                                <p class="text-xs text-red-500 font-medium mt-1">12 Units Left</p>
+                            </div>
+                            <button class="text-xs border border-primary text-primary font-bold px-3 py-1 rounded hover:bg-primary hover:text-white transition-colors">Order</button>
+                        </div>
+
+                        <div class="flex justify-between items-center border-b border-theme pb-3">
+                            <div>
+                                <p class="font-bold text-heading-theme text-sm">Beeswax Food Wraps</p>
+                                <p class="text-xs text-red-500 font-medium mt-1">5 Units Left</p>
+                            </div>
+                            <button class="text-xs border border-primary text-primary font-bold px-3 py-1 rounded hover:bg-primary hover:text-white transition-colors">Order</button>
+                        </div>
+
+                        <div class="flex justify-between items-center border-b border-theme pb-3">
+                            <div>
+                                <p class="font-bold text-heading-theme text-sm">Compostable Mailers (Small)</p>
+                                <p class="text-xs text-yellow-500 font-medium mt-1">50 Units Left</p>
+                            </div>
+                            <button class="text-xs border border-primary text-primary font-bold px-3 py-1 rounded hover:bg-primary hover:text-white transition-colors">Order</button>
+                        </div>
+                    </div>
+
+                    <button class="mt-auto w-full bg-theme-alt border border-theme text-heading-theme font-bold py-3 rounded-xl hover:bg-theme-main transition-colors">
+                        View Full Inventory
+                    </button>
+                </div>
+
+            </div>
+            
+            <div class="mt-12 text-center text-xs text-body-theme opacity-60">
+                &copy; 2026 GrowwEco. Admin Portal Secured.
+            </div>
+            <div class="pb-10"></div> </main>
+    </div>
+
+    <script>
+        // DOM Elements
+        const htmlElement = document.documentElement;
+        
+        // Buttons (Using shared IDs for desktop/mobile)
+        const desktopThemeToggleBtn = document.getElementById('desktop-theme-toggle-btn');
+        const desktopThemeIcon = document.getElementById('desktop-theme-icon');
+        
+        const desktopRtlToggleBtn = document.getElementById('desktop-rtl-toggle-btn');
+        
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        // --- THEME LOGIC ---
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', currentTheme);
+        if (currentTheme === 'dark') {
+            htmlElement.classList.add('dark');
+            if (desktopThemeIcon) desktopThemeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        function toggleTheme() {
+            const isDark = htmlElement.getAttribute('data-theme') === 'dark';
+            const newTheme = isDark ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            if (newTheme === 'dark') {
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+            }
+            
+            if (desktopThemeIcon) desktopThemeIcon.className = newTheme === 'dark' ? 'fas fa-sun text-sm sm:text-base' : 'fas fa-moon text-sm sm:text-base';
+        }
+
+        if (desktopThemeToggleBtn) desktopThemeToggleBtn.addEventListener('click', toggleTheme);
+
+        // --- RTL LOGIC ---
+        const currentDir = localStorage.getItem('direction') || 'ltr';
+        htmlElement.setAttribute('dir', currentDir);
+        
+        function toggleRTL() {
+            const direction = htmlElement.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl';
+            htmlElement.setAttribute('dir', direction);
+            localStorage.setItem('direction', direction);
+        }
+        
+        if (desktopRtlToggleBtn) desktopRtlToggleBtn.addEventListener('click', toggleRTL);
+
+        // --- MOBILE SIDEBAR LOGIC ---
+        if (mobileMenuBtn && sidebar) {
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0', 'absolute', 'shadow-2xl');
+            });
+        }
+
+        if (closeMenuBtn && sidebar) {
+            closeMenuBtn.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                sidebar.classList.remove('translate-x-0', 'shadow-2xl');
+            });
+        }
+    </script>
+</body>
+</html>
