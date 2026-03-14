@@ -188,6 +188,13 @@
                 <button onclick="switchTab('plan')" id="tab-plan" class="nav-item w-full text-start block px-4 py-3 rounded-xl font-medium text-sm border-none cursor-pointer bg-transparent">
                     <i class="fas fa-seedling w-5 text-center mr-2"></i> Current Plan
                 </button>
+                
+                <button onclick="switchTab('impact')" id="tab-impact" class="nav-item w-full text-start block px-4 py-3 rounded-xl font-medium text-sm border-none cursor-pointer bg-transparent">
+                    <i class="fas fa-chart-pie w-5 text-center mr-2"></i> Impact Report
+                </button>
+                <button onclick="switchTab('settings')" id="tab-settings" class="nav-item w-full text-start block px-4 py-3 rounded-xl font-medium text-sm border-none cursor-pointer bg-transparent">
+                    <i class="fas fa-cog w-5 text-center mr-2"></i> Settings
+                </button>
             </div>
             
         </aside>
@@ -310,6 +317,47 @@
                     </button>
                 </div>
 
+                <div id="impact-section" class="hidden w-full bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col transition-all duration-300">
+                    <h2 class="text-xl font-bold text-heading-theme mb-6">Your Environmental Impact</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-primary/10 p-5 rounded-xl border border-primary/20">
+                            <i class="fas fa-smog text-2xl text-primary mb-3"></i>
+                            <h3 class="font-bold text-primary mb-1">CO2 Reduced</h3>
+                            <p class="text-sm text-body-theme">You have saved approximately 150kg of CO2 emissions this year.</p>
+                        </div>
+                        <div class="bg-blue-500/10 p-5 rounded-xl border border-blue-500/20">
+                            <i class="fas fa-water text-2xl text-blue-500 mb-3"></i>
+                            <h3 class="font-bold text-blue-500 mb-1">Water Conserved</h3>
+                            <p class="text-sm text-body-theme">Over 500 liters of water saved through our eco-friendly packaging.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings-section" class="hidden w-full bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col transition-all duration-300">
+                    <h2 class="text-xl font-bold text-heading-theme mb-6">Account Settings</h2>
+                    <form class="space-y-5 max-w-lg">
+                        <div>
+                            <label class="block text-sm font-medium text-body-theme mb-2">Full Name</label>
+                            <input type="text" value="Jane Doe" class="w-full bg-theme-main border border-theme rounded-lg p-3 text-heading-theme outline-none focus:border-primary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-body-theme mb-2">Email Address</label>
+                            <input type="email" value="jane.doe@example.com" class="w-full bg-theme-main border border-theme rounded-lg p-3 text-heading-theme outline-none focus:border-primary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-body-theme mb-2">Email Notifications</label>
+                            <select class="w-full bg-theme-main border border-theme rounded-lg p-3 text-heading-theme outline-none focus:border-primary">
+                                <option>All notifications</option>
+                                <option>Order updates only</option>
+                                <option>None</option>
+                            </select>
+                        </div>
+                        <button type="button" class="mt-4 w-full sm:w-auto bg-primary text-white font-bold py-3 px-6 rounded-xl hover:bg-green-700 transition-colors shadow-sm">
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
+
             </div>
             
             <div class="mt-12 text-center text-xs text-body-theme opacity-60">
@@ -376,7 +424,7 @@
             });
         }
 
-        // --- TAB SWITCHING LOGIC ---
+        // --- TAB SWITCHING LOGIC BRO ---
         function switchTab(tabId) {
             // Update active states on sidebar buttons
             document.querySelectorAll('.nav-item').forEach(btn => {
@@ -384,7 +432,7 @@
             });
             document.getElementById('tab-' + tabId).classList.add('active');
 
-            // Close mobile menu if open after selection (since there's no X anymore)
+            // Close mobile menu if open after selection
             if(window.innerWidth < 768) {
                 sidebar.classList.remove('sidebar-open');
             }
@@ -394,7 +442,16 @@
             const grid = document.getElementById('dynamic-grid');
             const orders = document.getElementById('orders-section');
             const plan = document.getElementById('plan-section');
+            const impact = document.getElementById('impact-section');
+            const settings = document.getElementById('settings-section');
             const desc = document.getElementById('section-description');
+
+            // Hide everything first
+            stats.classList.add('hidden');
+            orders.classList.add('hidden');
+            plan.classList.add('hidden');
+            impact.classList.add('hidden');
+            settings.classList.add('hidden');
 
             if (tabId === 'overview') {
                 desc.innerText = "Here is a summary of your sustainable journey with EcoNova.";
@@ -410,22 +467,30 @@
             } else if (tabId === 'orders') {
                 desc.innerText = "Review all your recent purchases and their shipping status.";
                 
-                stats.classList.add('hidden');
                 orders.classList.remove('hidden');
-                plan.classList.add('hidden');
-
-                grid.className = 'block'; // Let table take full width
+                grid.className = 'block'; 
                 orders.className = 'w-full bg-card-theme rounded-2xl shadow-sm border border-theme overflow-hidden flex flex-col transition-all duration-300';
             
             } else if (tabId === 'plan') {
                 desc.innerText = "Manage your EcoNova active subscriptions and recurring impact.";
                 
-                stats.classList.add('hidden');
-                orders.classList.add('hidden');
                 plan.classList.remove('hidden');
-
-                grid.className = 'grid grid-cols-1 lg:grid-cols-3 gap-8'; // Restrict width so the card doesn't stretch massively across the whole screen
+                grid.className = 'grid grid-cols-1 lg:grid-cols-3 gap-8'; 
                 plan.className = 'lg:col-span-1 bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col h-full transition-all duration-300';
+            
+            } else if (tabId === 'impact') {
+                desc.innerText = "Track the positive environmental impact of your purchases.";
+                
+                impact.classList.remove('hidden');
+                grid.className = 'block';
+                impact.className = 'w-full bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col transition-all duration-300';
+                
+            } else if (tabId === 'settings') {
+                desc.innerText = "Update your account preferences and personal information.";
+                
+                settings.classList.remove('hidden');
+                grid.className = 'grid grid-cols-1 lg:grid-cols-2 gap-8'; 
+                settings.className = 'w-full bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col transition-all duration-300';
             }
         }
     </script>

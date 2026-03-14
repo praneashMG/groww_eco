@@ -188,6 +188,13 @@
                 <button onclick="switchTab('inventory')" id="tab-inventory" class="nav-item w-full text-start block px-4 py-3 rounded-xl font-medium text-sm border-none cursor-pointer bg-transparent">
                     <i class="fas fa-clipboard-list w-5 text-center mr-2"></i> Product Inventory
                 </button>
+                
+                <button onclick="switchTab('customers')" id="tab-customers" class="nav-item w-full text-start block px-4 py-3 rounded-xl font-medium text-sm border-none cursor-pointer bg-transparent">
+                    <i class="fas fa-users w-5 text-center mr-2"></i> Customers
+                </button>
+                <button onclick="switchTab('settings')" id="tab-settings" class="nav-item w-full text-start block px-4 py-3 rounded-xl font-medium text-sm border-none cursor-pointer bg-transparent">
+                    <i class="fas fa-cog w-5 text-center mr-2"></i> Settings
+                </button>
             </div>
             
         </aside>
@@ -336,6 +343,66 @@
 
             </div>
             
+            <div id="customers-section" class="hidden bg-card-theme rounded-2xl shadow-sm border border-theme overflow-hidden flex flex-col transition-all duration-300 w-full mb-8">
+                <div class="p-6 border-b border-theme flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-heading-theme">Customer Directory</h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-body-theme mb-6">Here you can manage your customer accounts, view their purchase history, and see their eco-impact scores.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border border-theme p-4 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-primary/20 text-primary rounded-full flex items-center justify-center font-bold text-xl">SJ</div>
+                                <div>
+                                    <h4 class="font-bold text-heading-theme">Sarah Jenkins</h4>
+                                    <p class="text-xs text-body-theme">sarah.j@example.com</p>
+                                </div>
+                            </div>
+                            <button class="text-xs font-bold text-body-theme hover:text-primary transition-colors border border-theme px-3 py-1.5 rounded">View</button>
+                        </div>
+                        <div class="border border-theme p-4 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-blue-500/20 text-blue-500 rounded-full flex items-center justify-center font-bold text-xl">MC</div>
+                                <div>
+                                    <h4 class="font-bold text-heading-theme">Michael Chen</h4>
+                                    <p class="text-xs text-body-theme">m.chen@example.com</p>
+                                </div>
+                            </div>
+                            <button class="text-xs font-bold text-body-theme hover:text-primary transition-colors border border-theme px-3 py-1.5 rounded">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings-section" class="hidden bg-card-theme rounded-2xl shadow-sm border border-theme overflow-hidden flex flex-col transition-all duration-300 w-full mb-8">
+                <div class="p-6 border-b border-theme">
+                    <h2 class="text-xl font-bold text-heading-theme">Store Settings</h2>
+                </div>
+                <div class="p-6 space-y-6">
+                    <div class="flex items-center justify-between border-b border-theme pb-6">
+                        <div>
+                            <h4 class="font-bold text-heading-theme">Email Notifications</h4>
+                            <p class="text-sm text-body-theme mt-1">Receive daily summary emails of store performance.</p>
+                        </div>
+                        <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm">Enabled</button>
+                    </div>
+                    <div class="flex items-center justify-between border-b border-theme pb-6">
+                        <div>
+                            <h4 class="font-bold text-heading-theme">Eco-Packaging Enforcement</h4>
+                            <p class="text-sm text-body-theme mt-1">Require sustainable packaging options for all shipments.</p>
+                        </div>
+                        <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm">Enabled</button>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="font-bold text-heading-theme">Maintenance Mode</h4>
+                            <p class="text-sm text-body-theme mt-1">Temporarily pause front-end store operations.</p>
+                        </div>
+                        <button class="bg-theme-main text-body-theme border border-theme px-4 py-2 rounded-lg text-sm font-bold">Disabled</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="mt-12 text-center text-xs text-body-theme opacity-60">
                 &copy; 2026 EcoNova. Admin Portal Secured.
             </div>
@@ -400,7 +467,7 @@
             });
         }
 
-        // --- TAB SWITCHING LOGIC BRO ---
+        // --- TAB SWITCHING LOGIC BRO (UPDATED) ---
         function switchTab(tabId) {
             // Update active states on sidebar buttons
             document.querySelectorAll('.nav-item').forEach(btn => {
@@ -418,12 +485,24 @@
             const grid = document.getElementById('dynamic-grid');
             const orders = document.getElementById('orders-section');
             const inventory = document.getElementById('inventory-section');
+            const customers = document.getElementById('customers-section');
+            const settings = document.getElementById('settings-section');
             const desc = document.getElementById('section-description');
 
+            // Hide EVERYTHING first so we start clean
+            stats.classList.add('hidden');
+            grid.classList.add('hidden');
+            orders.classList.add('hidden');
+            inventory.classList.add('hidden');
+            customers.classList.add('hidden');
+            settings.classList.add('hidden');
+
+            // Show what we need based on the tab clicked
             if (tabId === 'overview') {
                 desc.innerText = "Monitor your store's performance and environmental impact.";
                 
                 stats.classList.remove('hidden');
+                grid.classList.remove('hidden');
                 orders.classList.remove('hidden');
                 inventory.classList.remove('hidden');
                 
@@ -434,22 +513,30 @@
             } else if (tabId === 'orders') {
                 desc.innerText = "Manage recent customer orders and logistics.";
                 
-                stats.classList.add('hidden');
+                grid.classList.remove('hidden');
                 orders.classList.remove('hidden');
-                inventory.classList.add('hidden');
 
-                grid.className = 'block'; // Let table take full width
+                grid.className = 'block'; 
                 orders.className = 'w-full bg-card-theme rounded-2xl shadow-sm border border-theme overflow-hidden flex flex-col transition-all duration-300';
             
             } else if (tabId === 'inventory') {
                 desc.innerText = "Track low stock alerts and manage product inventory.";
                 
-                stats.classList.add('hidden');
-                orders.classList.add('hidden');
+                grid.classList.remove('hidden');
                 inventory.classList.remove('hidden');
 
-                grid.className = 'grid grid-cols-1 lg:grid-cols-3 gap-8'; // Restrict width so the card doesn't stretch massively across the whole screen
+                grid.className = 'grid grid-cols-1 lg:grid-cols-3 gap-8'; 
                 inventory.className = 'lg:col-span-1 bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col h-full transition-all duration-300';
+            
+            } else if (tabId === 'customers') {
+                desc.innerText = "View and manage your customer directory.";
+                
+                customers.classList.remove('hidden');
+
+            } else if (tabId === 'settings') {
+                desc.innerText = "Configure your store settings and preferences.";
+                
+                settings.classList.remove('hidden');
             }
         }
     </script>
