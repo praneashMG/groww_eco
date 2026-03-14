@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GrowwEco - Frequently Asked Questions. Find answers about our sustainable products, shipping, and more.">
-    <title>FAQ | GrowwEco</title>
+    <meta name="description" content="EcoNova - Frequently Asked Questions. Find answers about our sustainable products, shipping, and more.">
+    <title>FAQ | EcoNova</title>
     
-    <link rel="icon" href="Images/growwpark_logo.jpg">
+    <link rel="icon" href="Images/econova_logo.jpg">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -33,9 +33,6 @@
             --primary-color: #2ECC71; 
             --secondary-color: #FACC15; 
             --accent-color: #FACC15;
-            --base-dark: #111827;
-            --text-black: #000000;
-            --text-white: #FFFFFF;
             
             --bg-color: #FFFFFF;
             --bg-alt: #F9FAFB;
@@ -46,21 +43,25 @@
             --nav-text: #000000;
             --border-color: #E5E7EB;
             --dropdown-bg: #FFFFFF;
+            --input-bg: #FFFFFF;
         }
         
         [data-theme="dark"] {
             --primary-color: #2ECC71;      
             --secondary-color: #FACC15;
             --accent-color: #FACC15;     
-            --bg-color: #111827;
-            --bg-alt: #1F2937;  
-            --card-bg: #374151;  
-            --text-main: #F3F4F6;
+            
+            --bg-color: #0A0A0A;
+            --bg-alt: #141414;  
+            --card-bg: #1E1E1E;  
+            
+            --text-main: #E5E7EB;
             --text-heading: #FFFFFF;
-            --navbar-bg: #111827;
+            --navbar-bg: #0A0A0A;
             --nav-text: #FFFFFF;
-            --border-color: #4B5563;
-            --dropdown-bg: #374151;
+            --border-color: #333333;
+            --dropdown-bg: #1E1E1E;
+            --input-bg: #262626;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -130,7 +131,7 @@
         .dropdown-menu {
             position: absolute;
             top: 100%;
-            left: 0;
+            inset-inline-start: 0;
             background-color: var(--dropdown-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -141,6 +142,10 @@
             transition: all 0.3s ease;
             z-index: 1000;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        html[dir="rtl"] .dropdown-menu {
+            inset-inline-start: auto;
+            inset-inline-end: 0;
         }
         .dropdown:hover .dropdown-menu, .dropdown.active .dropdown-menu {
             opacity: 1;
@@ -158,7 +163,7 @@
         .dropdown-item:hover {
             background-color: rgba(46, 204, 113, 0.1);
             color: var(--primary-color);
-            padding-left: 25px;
+            padding-inline-start: 25px;
         }
         .dropdown-arrow { font-size: 0.7rem; transition: transform 0.3s ease; }
         .dropdown:hover .dropdown-arrow { transform: rotate(180deg); }
@@ -169,16 +174,28 @@
             transition: transform 0.3s ease;
             background-color: var(--bg-color);
         }
+        html[dir="rtl"] .mobile-menu {
+            transform: translateX(100%);
+        }
         .mobile-menu.active { transform: translateX(0); }
+        html[dir="rtl"] .mobile-menu.active { transform: translateX(0); }
+        
         .mobile-dropdown-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
-            padding-left: 20px;
+            padding-inline-start: 20px;
             background-color: var(--bg-alt);
             border-radius: 8px;
         }
         .mobile-dropdown-content.active { max-height: 500px; margin: 5px 0; }
+
+        /* Dynamic Input Field Styling */
+        .eco-input-field {
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
         
         /* Animations */
         @keyframes fadeInUp {
@@ -218,10 +235,10 @@
                     <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
                         <i class="fas fa-leaf text-sm md:text-base"></i>
                     </div>
-                    <div class="text-xl md:text-2xl font-black tracking-tight navbar-brand-text">GrowwEco</div>
+                    <div class="text-xl md:text-2xl font-black tracking-tight navbar-brand-text">EcoNova</div>
                 </a>
                 
-                <div class="desktop-nav items-center space-x-1 lg:space-x-2">
+                <div class="desktop-nav items-center space-x-1 lg:space-x-2 rtl:space-x-reverse">
                     <div class="dropdown" id="home-dropdown">
                         <div class="nav-link" onclick="toggleDesktopDropdown('home-dropdown')">
                             Home <i class="fas fa-chevron-down dropdown-arrow"></i>
@@ -245,8 +262,8 @@
                             Dashboard <i class="fas fa-chevron-down dropdown-arrow"></i>
                         </div>
                         <div class="dropdown-menu">
-                            <a href="user-dashboard.html" class="dropdown-item"><i class="fas fa-user mr-2 text-primary"></i> User</a>
-                            <a href="admin-dashboard.html" class="dropdown-item"><i class="fas fa-user-shield mr-2 text-primary"></i> Admin</a>
+                            <a href="user-dashboard.html" class="dropdown-item"><i class="fas fa-user me-2 text-primary"></i> User</a>
+                            <a href="admin-dashboard.html" class="dropdown-item"><i class="fas fa-user-shield me-2 text-primary"></i> Admin</a>
                         </div>
                     </div>
                 </div>
@@ -258,9 +275,15 @@
                     <button class="w-10 h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-rtl-toggle-btn" title="Toggle RTL">
                         <i class="fas fa-language"></i>
                     </button>
-                    <a href="login.html" class="bg-primary text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:bg-green-700 shadow-lg flex items-center gap-2">
-                        <i class="fas fa-user"></i> Login
-                    </a>
+                    
+                    <div class="flex items-center gap-2 ms-2">
+                        <a href="login.html" class="text-heading-theme font-bold text-sm transition-colors hover:text-primary px-2">
+                            Login
+                        </a>
+                        <a href="login.html#register" class="bg-primary text-white px-4 py-2.5 rounded-lg font-bold text-sm transition-all hover:bg-green-700 shadow-md flex items-center gap-2">
+                            <i class="fas fa-user-plus"></i> Register
+                        </a>
+                    </div>
                 </div>
                 
                 <button id="mobile-menu-btn" class="nav-icon-btn text-xl cursor-pointer p-2 rounded-lg w-10 h-10 flex items-center justify-center mobile-menu-button">
@@ -270,18 +293,18 @@
         </div>
     </nav>
     
-    <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 w-full h-full z-[9999] overflow-y-auto">
-        <div class="p-6">
+    <div id="mobile-menu" class="mobile-menu fixed top-0 start-0 w-full h-full z-[9999] overflow-y-auto">
+        <div class="p-6 pb-24">
             <div class="flex justify-between items-center mb-8 border-b border-theme pb-4">
                 <a href="index.html" class="flex items-center gap-2">
                     <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
                         <i class="fas fa-leaf text-sm"></i>
                     </div>
-                    <span class="text-lg font-black tracking-tight text-heading-theme hidden sm:block">GrowwEco</span>
+                    <span class="text-lg font-black tracking-tight text-heading-theme">EcoNova</span>
                 </a>
                 
-                <div class="flex items-center gap-1 sm:gap-2">
-                    <button class="w-8 h-8 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="mobile-theme-toggle" title="Toggle Dark/Light Mode">
+                <div class="flex items-center gap-2">
+                    <button class="w-8 h-8 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="mobile-theme-toggle" title="Toggle Dark Mode">
                         <i class="fas fa-moon text-sm" id="mobile-theme-icon"></i>
                     </button>
                     
@@ -289,11 +312,7 @@
                         <i class="fas fa-language text-sm"></i>
                     </button>
                     
-                    <a href="login.html" class="bg-primary text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-all hover:bg-green-700" title="Login">
-                        <i class="fas fa-user text-sm"></i>
-                    </a>
-                    
-                    <button id="close-mobile-menu" class="text-heading-theme text-2xl ml-1 transition-transform active:scale-90 border-none bg-transparent cursor-pointer">
+                    <button id="close-mobile-menu" class="text-heading-theme text-2xl ms-1 transition-transform active:scale-90 border-none bg-transparent cursor-pointer">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -302,68 +321,78 @@
             <div class="space-y-1">
                 <div>
                     <button id="mobile-home-link" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline cursor-pointer border-0 bg-transparent" onclick="toggleMobileDropdown('home-mobile')">
-                        <span><i class="fas fa-home mr-2 text-primary"></i> Home</span>
+                        <span><i class="fas fa-home me-2 text-primary"></i> Home</span>
                         <i class="fas fa-chevron-down dropdown-arrow text-body-theme"></i>
                     </button>
                     <div id="home-mobile" class="mobile-dropdown-content">
-                        <a href="index.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Home 1</a>
-                        <a href="home2.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Home 2</a>
+                        <a href="index.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:ps-2.5 font-medium">Home 1</a>
+                        <a href="home2.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:ps-2.5 font-medium">Home 2</a>
                     </div>
                 </div>
 
                 <a href="about.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-info-circle mr-2 text-primary"></i> About</span>
+                    <span><i class="fas fa-info-circle me-2 text-primary"></i> About</span>
                 </a>
                 <a href="impact.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-globe mr-2 text-primary"></i> Impact</span>
+                    <span><i class="fas fa-globe me-2 text-primary"></i> Impact</span>
                 </a>
                 <a href="product.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-box-open mr-2 text-primary"></i> Product</span>
+                    <span><i class="fas fa-box-open me-2 text-primary"></i> Product</span>
                 </a>
                 <a href="blog.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-leaf mr-2 text-primary"></i> Blog</span>
+                    <span><i class="fas fa-leaf me-2 text-primary"></i> Blog</span>
                 </a>
                 <a href="faq.html" class="flex items-center justify-between w-full text-primary text-lg font-bold py-3 no-underline">
-                    <span><i class="fas fa-question-circle mr-2"></i> FAQ</span>
+                    <span><i class="fas fa-question-circle me-2"></i> FAQ</span>
                 </a>
                 <a href="pricing.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-tags mr-2 text-primary"></i> Pricing</span>
+                    <span><i class="fas fa-tags me-2 text-primary"></i> Pricing</span>
                 </a>
                 <a href="contact.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-envelope mr-2 text-primary"></i> Contact</span>
+                    <span><i class="fas fa-envelope me-2 text-primary"></i> Contact</span>
                 </a>
                 
                 <div>
                     <button class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline cursor-pointer border-0 bg-transparent" onclick="toggleMobileDropdown('dashboard-mobile')">
-                        <span><i class="fas fa-tachometer-alt mr-2 text-primary"></i> Dashboard</span>
+                        <span><i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard</span>
                         <i class="fas fa-chevron-down dropdown-arrow text-body-theme"></i>
                     </button>
                     <div id="dashboard-mobile" class="mobile-dropdown-content">
-                        <a href="user-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">User Dashboard</a>
-                        <a href="admin-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Admin Dashboard</a>
+                        <a href="user-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:ps-2.5 font-medium">User Dashboard</a>
+                        <a href="admin-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:ps-2.5 font-medium">Admin Dashboard</a>
                     </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-theme flex flex-col gap-3">
+                    <a href="login.html" class="flex items-center justify-center w-full py-3 rounded-xl border-2 border-primary text-primary font-bold text-lg transition-all hover:bg-primary hover:text-white">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                    </a>
+                    <a href="login.html#register" class="flex items-center justify-center w-full py-3 rounded-xl bg-primary text-white font-bold text-lg transition-all hover:bg-green-700 shadow-md">
+                        <i class="fas fa-user-plus me-2"></i> Register
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+
     <section class="min-h-screen pt-[100px] relative overflow-hidden flex items-center justify-center bg-cover bg-center bg-no-repeat border-b border-theme" style="background-image: url('Images/heroFaq.jpg');">
         <div class="absolute inset-0 bg-black/70 pointer-events-none z-0"></div>
         
         <div class="container mx-auto px-4 relative z-10 py-16">
             <div class="text-center max-w-3xl mx-auto fade-in-up">
-                <div class="w-20 h-20 bg-primary/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/50">
+                <div class="w-20 h-20 bg-primary/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/50 shadow-md">
                     <i class="fas fa-question text-4xl text-primary"></i>
                 </div>
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black mb-6 leading-tight text-white drop-shadow-md">
-                    How can we <span class="gradient-text">help you?</span>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black mb-6 leading-tight text-white drop-shadow-lg">
+                    How can we <span class="gradient-text drop-shadow-lg">help you?</span>
                 </h1>
-                <p class="text-lg md:text-xl text-gray-300 mb-10 opacity-90 drop-shadow">
+                <p class="text-lg md:text-xl text-gray-200 mb-10 font-medium drop-shadow-md">
                     Search our knowledge base or browse the categories below to find quick answers to your questions about our sustainable products and services.
                 </p>
                 <div class="relative max-w-2xl mx-auto">
-                    <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg z-10"></i>
-                    <input type="text" placeholder="Type your question here..." class="w-full pl-14 pr-6 py-4 rounded-full border-0 bg-white text-black shadow-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all text-lg">
-                    <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary text-white px-6 py-2 rounded-full font-bold hover:bg-green-700 transition-colors shadow-md">
+                    <i class="fas fa-search absolute start-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg z-10"></i>
+                    <input type="text" placeholder="Type your question here..." class="eco-input-field w-full ps-14 pe-6 py-4 rounded-full border transition-colors shadow-lg focus:outline-none focus:ring-2 focus:ring-primary text-lg placeholder-gray-400 dark:placeholder-gray-500">
+                    <button class="absolute end-2 top-1/2 transform -translate-y-1/2 bg-primary text-white px-6 py-2 rounded-full font-bold hover:bg-green-700 transition-colors shadow-md">
                         Search
                     </button>
                 </div>
@@ -374,44 +403,55 @@
     <section class="py-16 md:py-24 bg-theme-main">
         <div class="container mx-auto px-4 max-w-4xl">
             
-            <div class="mb-12">
-                <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-box-open text-2xl text-primary"></i>
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
+                <button class="tab-btn active px-6 py-3 rounded-full font-bold transition-all bg-primary text-white shadow-md cursor-pointer border-0" data-target="tab-general">
+                    <i class="fas fa-box-open me-2"></i> General & Products
+                </button>
+                <button class="tab-btn px-6 py-3 rounded-full font-bold transition-all bg-card-theme border border-theme text-body-theme hover:border-primary cursor-pointer" data-target="tab-shipping">
+                    <i class="fas fa-shipping-fast me-2"></i> Orders & Shipping
+                </button>
+                <button class="tab-btn px-6 py-3 rounded-full font-bold transition-all bg-card-theme border border-theme text-body-theme hover:border-primary cursor-pointer" data-target="tab-sustainability">
+                    <i class="fas fa-globe-americas me-2"></i> Sustainability
+                </button>
+            </div>
+
+            <div id="tab-general" class="tab-content block fade-in-up">
+                <div class="flex items-center justify-center gap-3 mb-6">
                     <h2 class="text-2xl md:text-3xl font-bold text-heading-theme">General & Products</h2>
                 </div>
                 
                 <div class="space-y-4">
                     <div class="bg-card-theme border border-theme rounded-2xl overflow-hidden shadow-sm hover:border-primary transition-colors">
-                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-transparent cursor-pointer border-0">
+                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left rtl:text-right focus:outline-none bg-transparent cursor-pointer border-0">
                             <span class="font-bold text-heading-theme text-lg">Are your products really 100% plastic-free?</span>
                             <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed">
+                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed text-left rtl:text-right">
                                 Yes! We are strictly committed to zero plastic. This includes our products, the packaging they arrive in, and even the shipping tape. Everything is biodegradable, compostable, or infinitely recyclable.
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-card-theme border border-theme rounded-2xl overflow-hidden shadow-sm hover:border-primary transition-colors">
-                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-transparent cursor-pointer border-0">
+                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left rtl:text-right focus:outline-none bg-transparent cursor-pointer border-0">
                             <span class="font-bold text-heading-theme text-lg">Are the ingredients ethically sourced?</span>
                             <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed">
+                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed text-left rtl:text-right">
                                 Absolutely. All our organic goods and materials are Fair Trade certified. We ensure that farmers and artisans receive living wages and operate in safe, regulated working conditions.
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-card-theme border border-theme rounded-2xl overflow-hidden shadow-sm hover:border-primary transition-colors">
-                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-transparent cursor-pointer border-0">
+                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left rtl:text-right focus:outline-none bg-transparent cursor-pointer border-0">
                             <span class="font-bold text-heading-theme text-lg">How long do your bamboo products last?</span>
                             <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed">
+                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed text-left rtl:text-right">
                                 With proper care, our bamboo cutlery and toothbrushes last just as long as their plastic counterparts (about 3-4 months for toothbrushes, and years for cutlery). Just make sure to let them air dry completely between uses.
                             </div>
                         </div>
@@ -419,44 +459,43 @@
                 </div>
             </div>
 
-            <div class="mb-12">
-                <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-shipping-fast text-2xl text-primary"></i>
+            <div id="tab-shipping" class="tab-content hidden">
+                <div class="flex items-center justify-center gap-3 mb-6">
                     <h2 class="text-2xl md:text-3xl font-bold text-heading-theme">Orders & Shipping</h2>
                 </div>
                 
                 <div class="space-y-4">
                     <div class="bg-card-theme border border-theme rounded-2xl overflow-hidden shadow-sm hover:border-primary transition-colors">
-                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-transparent cursor-pointer border-0">
+                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left rtl:text-right focus:outline-none bg-transparent cursor-pointer border-0">
                             <span class="font-bold text-heading-theme text-lg">How long does shipping usually take?</span>
                             <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed">
+                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed text-left rtl:text-right">
                                 Domestic orders typically arrive within 3-5 business days. Because we use carbon-neutral shipping methods, sometimes transit can take an extra day, but it's worth it for the planet!
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-card-theme border border-theme rounded-2xl overflow-hidden shadow-sm hover:border-primary transition-colors">
-                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-transparent cursor-pointer border-0">
+                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left rtl:text-right focus:outline-none bg-transparent cursor-pointer border-0">
                             <span class="font-bold text-heading-theme text-lg">Do you ship internationally?</span>
                             <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed">
+                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed text-left rtl:text-right">
                                 Currently, we ship within the United States, Canada, and select countries in Europe. We are actively working on expanding our reach globally while maintaining a low carbon footprint.
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-card-theme border border-theme rounded-2xl overflow-hidden shadow-sm hover:border-primary transition-colors">
-                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-transparent cursor-pointer border-0">
+                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left rtl:text-right focus:outline-none bg-transparent cursor-pointer border-0">
                             <span class="font-bold text-heading-theme text-lg">What is your return policy?</span>
                             <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed">
+                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed text-left rtl:text-right">
                                 We offer a 30-day "no questions asked" return policy on unused items. Due to hygiene reasons, we cannot accept returns on opened personal care items like toothbrushes or soaps. Contact our support team to initiate a return.
                             </div>
                         </div>
@@ -464,44 +503,43 @@
                 </div>
             </div>
 
-            <div>
-                <div class="flex items-center gap-3 mb-6">
-                    <i class="fas fa-globe-americas text-2xl text-primary"></i>
+            <div id="tab-sustainability" class="tab-content hidden">
+                <div class="flex items-center justify-center gap-3 mb-6">
                     <h2 class="text-2xl md:text-3xl font-bold text-heading-theme">Sustainability & Impact</h2>
                 </div>
                 
                 <div class="space-y-4">
                     <div class="bg-card-theme border border-theme rounded-2xl overflow-hidden shadow-sm hover:border-primary transition-colors">
-                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-transparent cursor-pointer border-0">
+                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left rtl:text-right focus:outline-none bg-transparent cursor-pointer border-0">
                             <span class="font-bold text-heading-theme text-lg">How do you offset your carbon footprint?</span>
                             <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed">
+                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed text-left rtl:text-right">
                                 We partner with certified environmental agencies to calculate the exact emissions of our operations and shipping. We then purchase verified carbon offsets that fund reforestation and clean energy projects worldwide.
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-card-theme border border-theme rounded-2xl overflow-hidden shadow-sm hover:border-primary transition-colors">
-                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-transparent cursor-pointer border-0">
+                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left rtl:text-right focus:outline-none bg-transparent cursor-pointer border-0">
                             <span class="font-bold text-heading-theme text-lg">Can I compost the packaging myself?</span>
                             <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed">
+                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed text-left rtl:text-right">
                                 Yes! Our mailer boxes, kraft paper, and even the shipping labels are 100% home-compostable. Just tear them into smaller pieces, wet them slightly, and throw them in your backyard bin.
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-card-theme border border-theme rounded-2xl overflow-hidden shadow-sm hover:border-primary transition-colors">
-                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none bg-transparent cursor-pointer border-0">
+                        <button class="faq-button w-full px-6 py-5 flex justify-between items-center text-left rtl:text-right focus:outline-none bg-transparent cursor-pointer border-0">
                             <span class="font-bold text-heading-theme text-lg">Are your facilities powered by renewable energy?</span>
                             <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed">
+                            <div class="px-6 pb-5 pt-0 text-body-theme leading-relaxed text-left rtl:text-right">
                                 Our main warehouse and headquarters run entirely on a mix of rooftop solar and wind energy purchased from local green grids. We believe in practicing what we preach from the ground up!
                             </div>
                         </div>
@@ -521,31 +559,31 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-card-theme p-8 rounded-2xl border border-theme hover:-translate-y-2 transition-transform shadow-sm">
-                    <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
+                <div class="bg-card-theme h-full flex flex-col p-8 rounded-2xl border border-theme hover:-translate-y-2 transition-transform shadow-sm text-center">
+                    <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6 mx-auto shrink-0">
                         <i class="fas fa-seedling text-3xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-heading-theme mb-3">Bamboo Care</h3>
-                    <p class="text-sm text-body-theme mb-4">Never leave bamboo sitting in water. Hand wash with mild soap and let it air dry completely. Oil monthly to prevent cracking.</p>
-                    <a href="#" class="text-primary font-bold hover:underline">Read Full Guide &rarr;</a>
+                    <p class="text-sm text-body-theme mb-4 flex-grow">Never leave bamboo sitting in water. Hand wash with mild soap and let it air dry completely. Oil monthly to prevent cracking.</p>
+                    <a href="#" class="text-primary font-bold hover:underline mt-auto">Read Full Guide &rarr;</a>
                 </div>
                 
-                <div class="bg-card-theme p-8 rounded-2xl border border-theme hover:-translate-y-2 transition-transform shadow-sm">
-                    <div class="w-16 h-16 bg-accent/20 text-accent rounded-full flex items-center justify-center mb-6">
+                <div class="bg-card-theme h-full flex flex-col p-8 rounded-2xl border border-theme hover:-translate-y-2 transition-transform shadow-sm text-center">
+                    <div class="w-16 h-16 bg-accent/20 text-accent rounded-full flex items-center justify-center mb-6 mx-auto shrink-0">
                         <i class="fas fa-layer-group text-3xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-heading-theme mb-3">Beeswax Wraps</h3>
-                    <p class="text-sm text-body-theme mb-4">Wash only in COOL water. Hot water will melt the wax. Avoid using with raw meat. Store in a cool, dry place.</p>
-                    <a href="#" class="text-primary font-bold hover:underline">Read Full Guide &rarr;</a>
+                    <p class="text-sm text-body-theme mb-4 flex-grow">Wash only in COOL water. Hot water will melt the wax. Avoid using with raw meat. Store in a cool, dry place.</p>
+                    <a href="#" class="text-primary font-bold hover:underline mt-auto">Read Full Guide &rarr;</a>
                 </div>
 
-                <div class="bg-card-theme p-8 rounded-2xl border border-theme hover:-translate-y-2 transition-transform shadow-sm">
-                    <div class="w-16 h-16 bg-blue-500/10 text-blue-500 rounded-full flex items-center justify-center mb-6">
+                <div class="bg-card-theme h-full flex flex-col p-8 rounded-2xl border border-theme hover:-translate-y-2 transition-transform shadow-sm text-center">
+                    <div class="w-16 h-16 bg-blue-500/10 text-blue-500 rounded-full flex items-center justify-center mb-6 mx-auto shrink-0">
                         <i class="fas fa-tshirt text-3xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-heading-theme mb-3">Organic Textiles</h3>
-                    <p class="text-sm text-body-theme mb-4">Wash in cold water with eco-friendly detergent. Line dry when possible to save energy and protect the fibers.</p>
-                    <a href="#" class="text-primary font-bold hover:underline">Read Full Guide &rarr;</a>
+                    <p class="text-sm text-body-theme mb-4 flex-grow">Wash in cold water with eco-friendly detergent. Line dry when possible to save energy and protect the fibers.</p>
+                    <a href="#" class="text-primary font-bold hover:underline mt-auto">Read Full Guide &rarr;</a>
                 </div>
             </div>
         </div>
@@ -554,7 +592,7 @@
     <section class="py-16 md:py-24 bg-theme-main border-b border-theme">
         <div class="container mx-auto px-4 max-w-4xl text-center">
             <div class="bg-theme-alt rounded-3xl p-8 md:p-12 border border-theme shadow-sm relative overflow-hidden">
-                <i class="fas fa-lightbulb absolute -right-10 -bottom-10 text-[10rem] text-primary opacity-5 pointer-events-none"></i>
+                <i class="fas fa-lightbulb absolute -end-10 -bottom-10 text-[10rem] text-primary opacity-5 pointer-events-none"></i>
                 
                 <span class="text-primary font-bold tracking-wider uppercase text-sm block mb-2 relative z-10">Innovation</span>
                 <h2 class="text-3xl md:text-4xl font-black text-heading-theme mb-4 relative z-10">Have an Eco-Idea?</h2>
@@ -563,7 +601,7 @@
                 </p>
                 
                 <form class="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto relative z-10" onsubmit="event.preventDefault();">
-                    <input type="text" placeholder="E.g., Compostable phone cases..." class="flex-grow px-5 py-3 rounded-lg border border-theme bg-card-theme text-body-theme focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm" required>
+                    <input type="text" placeholder="E.g., Compostable phone cases..." class="eco-input-field flex-grow px-5 py-3 rounded-lg border transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm placeholder-gray-400 dark:placeholder-gray-500" required>
                     <button type="submit" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition-colors shadow-md whitespace-nowrap">
                         Submit Idea
                     </button>
@@ -573,7 +611,7 @@
     </section>
 
     <section class="py-16 md:py-20 bg-primary relative overflow-hidden">
-        <i class="fas fa-envelope-open-text absolute -right-10 -bottom-10 text-[15rem] text-white opacity-10 rotate-12 pointer-events-none"></i>
+        <i class="fas fa-envelope-open-text absolute -end-10 -bottom-10 text-[15rem] text-white opacity-10 rotate-12 pointer-events-none"></i>
         
         <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-2xl mx-auto text-center">
@@ -583,7 +621,7 @@
                 </p>
                 
                 <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="event.preventDefault();">
-                    <input type="email" placeholder="Enter your email address..." class="flex-grow px-5 py-3 rounded-lg border-0 bg-white text-black focus:outline-none focus:ring-2 focus:ring-accent font-medium shadow-md" required>
+                    <input type="email" placeholder="Enter your email address..." class="eco-input-field flex-grow px-5 py-3 rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-accent font-medium shadow-md placeholder-gray-400 dark:placeholder-gray-500" required>
                     <button type="submit" class="bg-baseDark text-white px-8 py-3 rounded-lg font-bold hover:bg-black transition-colors shadow-md whitespace-nowrap">
                         Subscribe Now
                     </button>
@@ -593,7 +631,7 @@
         </div>
     </section>
 
-    <footer class="bg-baseDark text-white py-12 md:py-16 mt-auto">
+    <footer class="bg-baseDark text-white py-12 md:py-16 mt-auto border-t border-white/10">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
                 <div>
@@ -601,12 +639,12 @@
                         <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
                             <i class="fas fa-leaf text-sm md:text-base"></i>
                         </div>
-                        <div class="text-xl md:text-2xl font-black tracking-tight text-white">GrowwEco</div>
+                        <div class="text-xl md:text-2xl font-black tracking-tight text-white">EcoNova</div>
                     </a>
                     <p class="opacity-80 mb-6 text-sm md:text-base text-gray-300">
                         Empowering individuals to make sustainable choices. Go green, live clean.
                     </p>
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-4 rtl:space-x-reverse">
                         <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-twitter"></i></a>
                         <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-instagram"></i></a>
@@ -643,8 +681,8 @@
                 </div>
             </div>
             
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm md:text-base text-white">
-                <p class="mb-4 md:mb-0 text-gray-300 font-medium">&copy; 2026 GrowwEco. All rights reserved.</p>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm md:text-base text-white text-center md:text-start">
+                <p class="mb-4 md:mb-0 text-gray-300 font-medium">&copy; 2026 EcoNova. All rights reserved.</p>
                 <div class="flex flex-wrap justify-center gap-4 md:gap-6">
                     <a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Privacy Policy</a>
                     <a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Terms of Service</a>
@@ -653,7 +691,7 @@
         </div>
     </footer>
 
-    <button id="scroll-top" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 bg-accent text-black rounded-full shadow-lg hidden hover:bg-yellow-500 transition z-50 border border-black/10">
+    <button id="scroll-top" class="fixed bottom-6 end-6 md:bottom-8 md:end-8 w-10 h-10 md:w-12 md:h-12 bg-accent text-black rounded-full shadow-lg hidden hover:bg-yellow-500 transition z-50 border border-black/10">
         <i class="fas fa-arrow-up"></i>
     </button>
 
@@ -722,10 +760,47 @@
         // Scroll Top
         const scrollTopBtn = document.getElementById('scroll-top');
         window.addEventListener('scroll', () => { scrollTopBtn.classList.toggle('hidden', window.scrollY <= 300); });
-        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        if(scrollTopBtn) scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        // 4. Accordion Logic for FAQ
+        // 4. Tab Logic for FAQ
         document.addEventListener('DOMContentLoaded', () => {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Reset all accordions when switching tabs
+                    document.querySelectorAll('.faq-content').forEach(c => c.style.maxHeight = null);
+                    document.querySelectorAll('.faq-button i').forEach(i => i.style.transform = 'rotate(0deg)');
+                    document.querySelectorAll('.faq-button').forEach(b => b.parentElement.classList.remove('border-primary'));
+
+                    // Remove active styles from all tabs
+                    tabBtns.forEach(b => {
+                        b.classList.remove('bg-primary', 'text-white', 'shadow-md');
+                        b.classList.add('bg-card-theme', 'border', 'border-theme', 'text-body-theme');
+                    });
+                    
+                    // Add active styles to clicked tab
+                    btn.classList.add('bg-primary', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-card-theme', 'border', 'border-theme', 'text-body-theme');
+
+                    // Hide all tab contents
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                        content.classList.remove('block', 'fade-in-up');
+                    });
+
+                    // Show target tab content
+                    const targetId = btn.getAttribute('data-target');
+                    const targetContent = document.getElementById(targetId);
+                    if (targetContent) {
+                        targetContent.classList.remove('hidden');
+                        targetContent.classList.add('block', 'fade-in-up');
+                    }
+                });
+            });
+
+            // 5. Accordion Logic for FAQ
             const faqButtons = document.querySelectorAll('.faq-button');
             
             faqButtons.forEach(button => {
@@ -739,6 +814,12 @@
                         icon.style.transform = 'rotate(0deg)';
                         button.parentElement.classList.remove('border-primary');
                     } else {
+                        // Optional: Close other open accordions within the same tab
+                        // const parentTab = button.closest('.tab-content');
+                        // parentTab.querySelectorAll('.faq-content').forEach(c => c.style.maxHeight = null);
+                        // parentTab.querySelectorAll('.faq-button i').forEach(i => i.style.transform = 'rotate(0deg)');
+                        // parentTab.querySelectorAll('.faq-button').forEach(b => b.parentElement.classList.remove('border-primary'));
+
                         content.style.maxHeight = content.scrollHeight + "px";
                         icon.style.transform = 'rotate(180deg)';
                         button.parentElement.classList.add('border-primary');

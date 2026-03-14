@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GrowwEco - User Dashboard">
-    <title>User Dashboard | GrowwEco</title>
+    <meta name="description" content="EcoNova - User Dashboard">
+    <title>User Dashboard | EcoNova</title>
     
-    <link rel="icon" href="Images/growwpark_logo.jpg">
+    <link rel="icon" href="Images/econova_logo.jpg">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -18,7 +18,7 @@
                         primary: '#2ECC71',   /* Fresh Green */
                         secondary: '#FACC15', /* Warm Yellow */
                         accent: '#FACC15',    /* Warm Yellow for Highlights */
-                        baseDark: '#111827',  /* Deep Gray/Black */
+                        baseDark: '#0A0A0A',  /* True Black */
                     }
                 }
             }
@@ -34,7 +34,7 @@
             --primary-color: #2ECC71; 
             --secondary-color: #FACC15; 
             --accent-color: #FACC15;
-            --base-dark: #111827;
+            --base-dark: #0A0A0A;
             --text-black: #000000;
             --text-white: #FFFFFF;
             
@@ -53,23 +53,26 @@
             --primary-color: #2ECC71;      
             --secondary-color: #FACC15;
             --accent-color: #FACC15;     
-            --bg-color: #0F172A; /* Deep dark background */
-            --bg-alt: #1E293B;  
-            --card-bg: #1E293B;  
+            
+            /* Unified True Black / Dark Grey Aesthetic bro */
+            --bg-color: #0A0A0A; 
+            --bg-alt: #141414;  
+            --card-bg: #1E1E1E;  
             --text-main: #9CA3AF;
             --text-heading: #F9FAFB;
-            --navbar-bg: #1E293B;
+            --navbar-bg: #141414;
             --nav-text: #F9FAFB;
-            --border-color: #334155;
-            --sidebar-bg: #1E293B;
+            --border-color: #333333;
+            --sidebar-bg: #141414;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        /* Full screen application lock */
         html, body { 
-            height: 100%; 
-            width: 100%; 
-            overflow: hidden; /* Prevent body scroll, handle scroll in content area */
+            height: 100vh; 
+            width: 100vw; 
+            overflow: hidden; 
         }
 
         body {
@@ -110,20 +113,26 @@
         /* Sidebar Styles */
         .sidebar {
             background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
+            border-inline-end: 1px solid var(--border-color); /* Logical property for RTL */
             transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        /* Bulletproof sidebar toggle that works perfectly in LTR and RTL bro */
+        .sidebar.sidebar-open {
+            transform: translateX(0) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
         
         .nav-item {
             color: var(--text-main);
             transition: all 0.2s ease;
         }
-        .nav-item:hover {
+        .nav-item:hover:not(.active) {
             background-color: rgba(46, 204, 113, 0.1);
             color: var(--primary-color);
         }
         .nav-item.active {
-            background-color: var(--primary-color);
+            background-color: var(--primary-color) !important;
             color: #FFFFFF !important;
             font-weight: 700;
         }
@@ -131,17 +140,22 @@
 </head>
 <body class="flex flex-col">
 
-    <nav class="navbar-container flex items-center justify-between px-3 md:px-8 shrink-0 z-50 relative shadow-sm">
+    <nav class="navbar-container w-full flex items-center justify-between px-3 md:px-8 shrink-0 z-50 relative shadow-sm">
         
-        <a href="index.html" class="flex items-center gap-2 no-underline transition-transform duration-300 hover:scale-105 shrink-0">
-            <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
-                <i class="fas fa-leaf text-sm md:text-base"></i>
-            </div>
-            <div class="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-heading-theme">GrowwEco</div>
-        </a>
+        <div class="flex items-center gap-3">
+            <button id="mobileMenuBtn" class="md:hidden nav-icon-btn text-base cursor-pointer rounded-lg w-8 h-8 flex items-center justify-center border-none bg-transparent shrink-0">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <a href="index.html" class="flex items-center gap-2 no-underline transition-transform duration-300 hover:scale-105 shrink-0">
+                <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
+                    <i class="fas fa-leaf text-sm md:text-base"></i>
+                </div>
+                <div class="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-heading-theme">EcoNova</div>
+            </a>
+        </div>
 
         <div class="flex items-center gap-1 sm:gap-3">
-            
             <button class="w-8 h-8 sm:w-10 sm:h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-theme-toggle-btn" title="Toggle Dark/Light Mode">
                 <i class="fas fa-moon text-sm sm:text-base" id="desktop-theme-icon"></i>
             </button>
@@ -153,75 +167,41 @@
             <a href="login.html" class="bg-primary text-white px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-lg font-bold text-xs sm:text-sm transition-all hover:bg-green-700 shadow-md flex items-center shrink-0">
                 Logout
             </a>
-
-            <button id="mobileMenuBtn" class="sm:hidden nav-icon-btn text-base cursor-pointer rounded-lg w-8 h-8 flex items-center justify-center border-none bg-transparent ml-1 shrink-0">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </nav>
 
-    <div class="flex flex-1 overflow-hidden">
+    <div class="flex flex-1 w-full overflow-hidden relative">
         
-        <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 z-40 w-64 pt-4 pb-6 px-4 transform -translate-x-full sm:relative sm:translate-x-0 transition-transform duration-300 flex flex-col justify-between overflow-y-auto">
+        <aside id="sidebar" class="sidebar w-64 shrink-0 flex flex-col absolute md:relative inset-y-0 start-0 z-40 transition-transform duration-300 transform -translate-x-full rtl:translate-x-full md:translate-x-0 rtl:md:translate-x-0 overflow-y-auto">
             
-            <div class="sm:hidden mb-4 flex justify-between items-center border-b border-theme pb-4">
-                <a href="index.html" class="flex items-center gap-2 no-underline">
-                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
-                        <i class="fas fa-leaf text-sm"></i>
-                    </div>
-                    <span class="text-lg font-black tracking-tight text-heading-theme">GrowwEco</span>
-                </a>
-                <button id="closeMenuBtn" class="text-heading-theme text-2xl transition-transform active:scale-90 border-none bg-transparent cursor-pointer">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <div class="space-y-1 sm:mt-4">
+            <div class="space-y-1 mt-6">
                 <div class="px-4 py-2 mb-2">
                     <p class="text-xs font-bold uppercase tracking-wider opacity-60 text-heading-theme">Main Menu</p>
                 </div>
                 
-                <a href="#" class="nav-item active block px-4 py-3 rounded-xl font-medium text-sm">
-                    Dashboard Overview
-                </a>
-                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
-                    Order History
-                </a>
-                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
-                    Active Subscriptions
-                </a>
-                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
-                    Eco Impact Tracker
-                </a>
+                <button onclick="switchTab('overview')" id="tab-overview" class="nav-item active w-full text-start block px-4 py-3 rounded-xl font-medium text-sm border-none cursor-pointer bg-transparent">
+                    <i class="fas fa-home w-5 text-center mr-2"></i> Dashboard Overview
+                </button>
+                <button onclick="switchTab('orders')" id="tab-orders" class="nav-item w-full text-start block px-4 py-3 rounded-xl font-medium text-sm border-none cursor-pointer bg-transparent">
+                    <i class="fas fa-box w-5 text-center mr-2"></i> Order History
+                </button>
+                <button onclick="switchTab('plan')" id="tab-plan" class="nav-item w-full text-start block px-4 py-3 rounded-xl font-medium text-sm border-none cursor-pointer bg-transparent">
+                    <i class="fas fa-seedling w-5 text-center mr-2"></i> Current Plan
+                </button>
             </div>
-
-            <div class="space-y-1 mt-8">
-                <div class="px-4 py-2 mb-2 border-t border-theme pt-6">
-                    <p class="text-xs font-bold uppercase tracking-wider opacity-60 text-heading-theme">Account</p>
-                </div>
-                
-                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
-                    Profile Settings
-                </a>
-                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
-                    Payment Methods
-                </a>
-                <a href="#" class="nav-item block px-4 py-3 rounded-xl font-medium text-sm">
-                    Shipping Addresses
-                </a>
-            </div>
+            
         </aside>
 
-        <main class="flex-1 overflow-y-auto p-4 md:p-8 relative">
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 relative bg-theme-main">
             
             <div class="mb-8">
                 <h1 class="text-3xl font-black text-heading-theme mb-2">Welcome Back, Jane!</h1>
-                <p class="text-body-theme text-sm md:text-base">Here is a summary of your sustainable journey with GrowwEco.</p>
+                <p class="text-body-theme text-sm md:text-base" id="section-description">Here is a summary of your sustainable journey with EcoNova.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div id="stats-section" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 transition-all duration-300">
                 
-                <div class="bg-card-theme p-6 rounded-2xl shadow-sm border border-theme flex flex-col justify-between h-32 border-l-4 border-l-primary">
+                <div class="bg-card-theme p-6 rounded-2xl shadow-sm border border-theme flex flex-col justify-between h-32 border-s-4 border-s-primary">
                     <p class="text-xs font-bold uppercase tracking-wider opacity-70 text-body-theme">Trees Planted</p>
                     <div class="flex items-end justify-between">
                         <h3 class="text-4xl font-black text-primary">12</h3>
@@ -229,7 +209,7 @@
                     </div>
                 </div>
 
-                <div class="bg-card-theme p-6 rounded-2xl shadow-sm border border-theme flex flex-col justify-between h-32 border-l-4 border-l-secondary">
+                <div class="bg-card-theme p-6 rounded-2xl shadow-sm border border-theme flex flex-col justify-between h-32 border-s-4 border-s-secondary">
                     <p class="text-xs font-bold uppercase tracking-wider opacity-70 text-body-theme">Total Orders</p>
                     <div class="flex items-end justify-between">
                         <h3 class="text-4xl font-black text-heading-theme">8</h3>
@@ -237,7 +217,7 @@
                     </div>
                 </div>
 
-                <div class="bg-card-theme p-6 rounded-2xl shadow-sm border border-theme flex flex-col justify-between h-32 border-l-4 border-l-blue-500">
+                <div class="bg-card-theme p-6 rounded-2xl shadow-sm border border-theme flex flex-col justify-between h-32 border-s-4 border-s-blue-500">
                     <p class="text-xs font-bold uppercase tracking-wider opacity-70 text-body-theme">Plastic Saved (lbs)</p>
                     <div class="flex items-end justify-between">
                         <h3 class="text-4xl font-black text-heading-theme">45</h3>
@@ -247,21 +227,20 @@
 
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div id="dynamic-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 
-                <div class="lg:col-span-2 bg-card-theme rounded-2xl shadow-sm border border-theme overflow-hidden flex flex-col">
+                <div id="orders-section" class="lg:col-span-2 bg-card-theme rounded-2xl shadow-sm border border-theme overflow-hidden flex flex-col transition-all duration-300">
                     <div class="p-6 border-b border-theme flex justify-between items-center">
                         <h2 class="text-xl font-bold text-heading-theme">Recent Orders</h2>
-                        <a href="#" class="text-sm font-bold text-primary hover:underline">View All</a>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse min-w-[500px]">
+                        <table class="w-full text-start border-collapse min-w-[500px]">
                             <thead>
-                                <tr class="bg-theme-main text-body-theme text-xs uppercase tracking-wider">
-                                    <th class="px-6 py-4 font-bold border-b border-theme">Order ID</th>
-                                    <th class="px-6 py-4 font-bold border-b border-theme">Date</th>
-                                    <th class="px-6 py-4 font-bold border-b border-theme">Total</th>
-                                    <th class="px-6 py-4 font-bold border-b border-theme">Status</th>
+                                <tr class="bg-theme-main text-body-theme text-xs uppercase tracking-wider border-b border-theme">
+                                    <th class="px-6 py-4 font-bold text-start">Order ID</th>
+                                    <th class="px-6 py-4 font-bold text-start">Date</th>
+                                    <th class="px-6 py-4 font-bold text-start">Total</th>
+                                    <th class="px-6 py-4 font-bold text-start">Status</th>
                                 </tr>
                             </thead>
                             <tbody class="text-sm text-heading-theme divide-y divide-[var(--border-color)]">
@@ -269,7 +248,7 @@
                                     <td class="px-6 py-4 font-bold text-primary">#GE-9021</td>
                                     <td class="px-6 py-4 text-body-theme">Oct 12, 2026</td>
                                     <td class="px-6 py-4 font-medium">$45.00</td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 text-start">
                                         <span class="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 py-1 px-3 rounded-full text-xs font-bold">Delivered</span>
                                     </td>
                                 </tr>
@@ -277,7 +256,7 @@
                                     <td class="px-6 py-4 font-bold text-primary">#GE-8944</td>
                                     <td class="px-6 py-4 text-body-theme">Sep 28, 2026</td>
                                     <td class="px-6 py-4 font-medium">$120.50</td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 text-start">
                                         <span class="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 py-1 px-3 rounded-full text-xs font-bold">Delivered</span>
                                     </td>
                                 </tr>
@@ -285,7 +264,7 @@
                                     <td class="px-6 py-4 font-bold text-primary">#GE-8710</td>
                                     <td class="px-6 py-4 text-body-theme">Sep 15, 2026</td>
                                     <td class="px-6 py-4 font-medium">$29.99</td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 text-start">
                                         <span class="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 py-1 px-3 rounded-full text-xs font-bold">In Transit</span>
                                     </td>
                                 </tr>
@@ -293,7 +272,7 @@
                                     <td class="px-6 py-4 font-bold text-primary">#GE-8552</td>
                                     <td class="px-6 py-4 text-body-theme">Aug 30, 2026</td>
                                     <td class="px-6 py-4 font-medium">$85.00</td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 text-start">
                                         <span class="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 py-1 px-3 rounded-full text-xs font-bold">Delivered</span>
                                     </td>
                                 </tr>
@@ -302,7 +281,7 @@
                     </div>
                 </div>
 
-                <div class="bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col h-full">
+                <div id="plan-section" class="bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col h-full transition-all duration-300">
                     <h2 class="text-xl font-bold text-heading-theme mb-6">Current Plan</h2>
                     
                     <div class="bg-primary/10 border border-primary/20 rounded-xl p-5 mb-6 text-center">
@@ -326,7 +305,7 @@
                         </div>
                     </div>
 
-                    <button class="mt-auto w-full border-2 border-primary text-primary font-bold py-3 rounded-xl hover:bg-primary hover:text-white transition-colors">
+                    <button class="mt-auto w-full border-2 border-primary text-primary font-bold py-3 rounded-xl hover:bg-primary hover:text-white transition-colors shadow-sm">
                         Manage Plan
                     </button>
                 </div>
@@ -334,9 +313,10 @@
             </div>
             
             <div class="mt-12 text-center text-xs text-body-theme opacity-60">
-                &copy; 2026 GrowwEco. Dashboard Secured.
+                &copy; 2026 EcoNova. Dashboard Secured.
             </div>
-            <div class="pb-10"></div> </main>
+            <div class="pb-10"></div> 
+        </main>
     </div>
 
     <script>
@@ -346,11 +326,9 @@
         // Buttons
         const desktopThemeToggleBtn = document.getElementById('desktop-theme-toggle-btn');
         const desktopThemeIcon = document.getElementById('desktop-theme-icon');
-        
         const desktopRtlToggleBtn = document.getElementById('desktop-rtl-toggle-btn');
         
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const closeMenuBtn = document.getElementById('closeMenuBtn');
         const sidebar = document.getElementById('sidebar');
 
         // --- THEME LOGIC ---
@@ -391,19 +369,64 @@
         
         if (desktopRtlToggleBtn) desktopRtlToggleBtn.addEventListener('click', toggleRTL);
 
-        // --- MOBILE SIDEBAR LOGIC ---
+        // --- MOBILE SIDEBAR LOGIC (TOGGLE) ---
         if (mobileMenuBtn && sidebar) {
             mobileMenuBtn.addEventListener('click', () => {
-                sidebar.classList.remove('-translate-x-full');
-                sidebar.classList.add('translate-x-0', 'absolute', 'shadow-2xl');
+                sidebar.classList.toggle('sidebar-open');
             });
         }
 
-        if (closeMenuBtn && sidebar) {
-            closeMenuBtn.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-                sidebar.classList.remove('translate-x-0', 'shadow-2xl');
+        // --- TAB SWITCHING LOGIC ---
+        function switchTab(tabId) {
+            // Update active states on sidebar buttons
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.remove('active');
             });
+            document.getElementById('tab-' + tabId).classList.add('active');
+
+            // Close mobile menu if open after selection (since there's no X anymore)
+            if(window.innerWidth < 768) {
+                sidebar.classList.remove('sidebar-open');
+            }
+
+            // Get layout elements
+            const stats = document.getElementById('stats-section');
+            const grid = document.getElementById('dynamic-grid');
+            const orders = document.getElementById('orders-section');
+            const plan = document.getElementById('plan-section');
+            const desc = document.getElementById('section-description');
+
+            if (tabId === 'overview') {
+                desc.innerText = "Here is a summary of your sustainable journey with EcoNova.";
+                
+                stats.classList.remove('hidden');
+                orders.classList.remove('hidden');
+                plan.classList.remove('hidden');
+                
+                grid.className = 'grid grid-cols-1 lg:grid-cols-3 gap-8';
+                orders.className = 'lg:col-span-2 bg-card-theme rounded-2xl shadow-sm border border-theme overflow-hidden flex flex-col transition-all duration-300';
+                plan.className = 'bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col h-full transition-all duration-300';
+            
+            } else if (tabId === 'orders') {
+                desc.innerText = "Review all your recent purchases and their shipping status.";
+                
+                stats.classList.add('hidden');
+                orders.classList.remove('hidden');
+                plan.classList.add('hidden');
+
+                grid.className = 'block'; // Let table take full width
+                orders.className = 'w-full bg-card-theme rounded-2xl shadow-sm border border-theme overflow-hidden flex flex-col transition-all duration-300';
+            
+            } else if (tabId === 'plan') {
+                desc.innerText = "Manage your EcoNova active subscriptions and recurring impact.";
+                
+                stats.classList.add('hidden');
+                orders.classList.add('hidden');
+                plan.classList.remove('hidden');
+
+                grid.className = 'grid grid-cols-1 lg:grid-cols-3 gap-8'; // Restrict width so the card doesn't stretch massively across the whole screen
+                plan.className = 'lg:col-span-1 bg-card-theme rounded-2xl shadow-sm border border-theme p-6 flex flex-col h-full transition-all duration-300';
+            }
         }
     </script>
 </body>
