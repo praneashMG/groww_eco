@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GrowwEco Blog Article Details">
-    <title>Article | GrowwEco</title>
+    <meta name="description" content="EcoNova Blog Article Details">
+    <title>Article | EcoNova</title>
     
     <link rel="icon" href="Images/growwpark_logo.jpg">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tailwind.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -33,34 +33,36 @@
             --primary-color: #2ECC71; 
             --secondary-color: #FACC15; 
             --accent-color: #FACC15;
-            --base-dark: #111827;
-            --text-black: #000000;
-            --text-white: #FFFFFF;
             
             --bg-color: #FFFFFF;
             --bg-alt: #F9FAFB;
             --card-bg: #FFFFFF;    
             --text-main: #1F2937;
-            --text-heading: #000000;
+            --text-heading: #000000; /* Pure black for contrast */
             --navbar-bg: #FFFFFF;
             --nav-text: #000000;
             --border-color: #E5E7EB;
             --dropdown-bg: #FFFFFF;
+            --input-bg: #FFFFFF;
         }
         
         [data-theme="dark"] {
             --primary-color: #2ECC71;      
             --secondary-color: #FACC15;
             --accent-color: #FACC15;     
-            --bg-color: #111827;
-            --bg-alt: #1F2937;  
-            --card-bg: #374151;  
-            --text-main: #F3F4F6;
+            
+            /* True Black / Dark Grey instead of Blue-Grey */
+            --bg-color: #0A0A0A;
+            --bg-alt: #141414;  
+            --card-bg: #1E1E1E;  
+            
+            --text-main: #E5E7EB;
             --text-heading: #FFFFFF;
-            --navbar-bg: #111827;
+            --navbar-bg: #0A0A0A;
             --nav-text: #FFFFFF;
-            --border-color: #4B5563;
-            --dropdown-bg: #374151;
+            --border-color: #333333;
+            --dropdown-bg: #1E1E1E;
+            --input-bg: #262626;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -80,14 +82,16 @@
         .bg-theme-main { background-color: var(--bg-color); }
         .bg-theme-alt { background-color: var(--bg-alt); }
         .bg-card-theme { background-color: var(--card-bg); }
-        .text-heading-theme { color: var(--text-heading) !important; }
-        .text-body-theme { color: var(--text-main) !important; }
-        .border-theme { border-color: var(--border-color) !important; }
         
-        .bg-primary { background-color: var(--primary-color) !important; }
-        .bg-secondary { background-color: var(--secondary-color) !important; }
-        .text-primary { color: var(--primary-color) !important; }
-        .text-secondary { color: var(--secondary-color) !important; }
+        /* Text utility classes */
+        .text-heading-theme { color: var(--text-heading); }
+.text-body-theme { color: var(--text-main); }
+.border-theme { border-color: var(--border-color); }
+
+.bg-primary { background-color: var(--primary-color); }
+.bg-secondary { background-color: var(--secondary-color); }
+.text-primary { color: var(--primary-color); }
+.text-secondary { color: var(--secondary-color); }
 
         /* Navbar Styles */
         .navbar-container {
@@ -111,8 +115,8 @@
             font-size: 0.9rem;
         }
         
-        .nav-link:hover { color: var(--primary-color); }
-        .nav-link.active { color: var(--primary-color); font-weight: 700; }
+        .nav-link:hover { color: #2ECC71; }
+        .nav-link.active { color: #2ECC71; font-weight: 700; }
         
         .navbar-brand-text { color: var(--nav-text); }
 
@@ -122,7 +126,7 @@
             color: var(--nav-text);
         }
         [data-theme="dark"] .nav-icon-btn {
-            background-color: rgba(250, 204, 21, 0.1);
+            background-color: rgba(250, 204, 21, 0.1); 
         }
 
         /* Dropdowns */
@@ -130,7 +134,7 @@
         .dropdown-menu {
             position: absolute;
             top: 100%;
-            left: 0;
+            inset-inline-start: 0;
             background-color: var(--dropdown-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -141,6 +145,10 @@
             transition: all 0.3s ease;
             z-index: 1000;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        html[dir="rtl"] .dropdown-menu {
+            inset-inline-start: auto;
+            inset-inline-end: 0;
         }
         .dropdown:hover .dropdown-menu, .dropdown.active .dropdown-menu {
             opacity: 1;
@@ -157,8 +165,8 @@
         }
         .dropdown-item:hover {
             background-color: rgba(46, 204, 113, 0.1);
-            color: var(--primary-color);
-            padding-left: 25px;
+            color: #2ECC71;
+            padding-inline-start: 25px;
         }
         .dropdown-arrow { font-size: 0.7rem; transition: transform 0.3s ease; }
         .dropdown:hover .dropdown-arrow { transform: rotate(180deg); }
@@ -169,32 +177,63 @@
             transition: transform 0.3s ease;
             background-color: var(--bg-color);
         }
+        html[dir="rtl"] .mobile-menu {
+            transform: translateX(100%);
+        }
         .mobile-menu.active { transform: translateX(0); }
+        html[dir="rtl"] .mobile-menu.active { transform: translateX(0); }
+        
         .mobile-dropdown-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
-            padding-left: 20px;
+            padding-inline-start: 20px;
             background-color: var(--bg-alt);
             border-radius: 8px;
         }
         .mobile-dropdown-content.active { max-height: 500px; margin: 5px 0; }
+
+        /* Dynamic Input Field Styling */
+        .eco-input-field {
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
         
         /* Blog Content Specific Styles */
         .prose p { margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-main); }
         .prose h2 { font-size: 1.8rem; font-weight: 800; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--text-heading); }
         .prose h3 { font-size: 1.4rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--text-heading); }
-        .prose ul { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style-type: disc; color: var(--text-main); }
+        .prose ul { margin-bottom: 1.5rem; padding-inline-start: 1.5rem; list-style-type: disc; color: var(--text-main); }
         .prose li { margin-bottom: 0.5rem; }
-        .prose blockquote { border-left: 4px solid var(--primary-color); padding-left: 1rem; font-style: italic; opacity: 0.9; margin: 2rem 0; background-color: rgba(46, 204, 113, 0.05); padding: 1.5rem; border-radius: 8px; }
         
-        /* Text Gradients */
+        /* RTL Supported Blockquote */
+        .prose blockquote { 
+            border-inline-start: 4px solid var(--primary-color); 
+            padding-inline-start: 1rem; 
+            font-style: italic; 
+            opacity: 0.9; 
+            margin: 2rem 0; 
+            background-color: rgba(46, 204, 113, 0.05); 
+            padding: 1.5rem; 
+            border-radius: 8px; 
+        }
+        
+        /* Animations & Text Gradients */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up { animation: fadeInUp 0.6s ease-out; }
+
         .gradient-text {
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        
+        #mobile-menu-btn:active { transform: scale(0.9); }
         
         @media (max-width: 1279px) {
             .desktop-nav, .navbar-right-desktop { display: none !important; }
@@ -217,10 +256,10 @@
                     <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
                         <i class="fas fa-leaf text-sm md:text-base"></i>
                     </div>
-                    <div class="text-xl md:text-2xl font-black tracking-tight navbar-brand-text">GrowwEco</div>
+                    <div class="text-xl md:text-2xl font-black tracking-tight navbar-brand-text">EcoNova</div>
                 </a>
                 
-                <div class="desktop-nav items-center space-x-1 lg:space-x-2">
+                <div class="desktop-nav items-center space-x-1 lg:space-x-2 rtl:space-x-reverse">
                     <div class="dropdown" id="home-dropdown">
                         <div class="nav-link" onclick="toggleDesktopDropdown('home-dropdown')">
                             Home <i class="fas fa-chevron-down dropdown-arrow"></i>
@@ -244,22 +283,28 @@
                             Dashboard <i class="fas fa-chevron-down dropdown-arrow"></i>
                         </div>
                         <div class="dropdown-menu">
-                            <a href="user-dashboard.html" class="dropdown-item"><i class="fas fa-user mr-2 text-primary"></i> User</a>
-                            <a href="admin-dashboard.html" class="dropdown-item"><i class="fas fa-user-shield mr-2 text-primary"></i> Admin</a>
+                            <a href="user-dashboard.html" class="dropdown-item"><i class="fas fa-user me-2 text-primary"></i> User</a>
+                            <a href="admin-dashboard.html" class="dropdown-item"><i class="fas fa-user-shield me-2 text-primary"></i> Admin</a>
                         </div>
                     </div>
                 </div>
                 
                 <div class="navbar-right-desktop flex items-center gap-2 lg:gap-3">
                     <button class="w-10 h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-theme-toggle-btn" title="Toggle Dark/Light Mode">
-                        <i class="fas fa-moon" id="desktop-theme-icon"></i>
+                        <i class="fas fa-moon text-sm" id="desktop-theme-icon"></i>
                     </button>
                     <button class="w-10 h-10 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="desktop-rtl-toggle-btn" title="Toggle RTL">
-                        <i class="fas fa-language"></i>
+                        <i class="fas fa-align-right text-sm"></i>
                     </button>
-                    <a href="login.html" class="bg-primary text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:bg-green-700 shadow-lg flex items-center gap-2">
-                        <i class="fas fa-user"></i> Login
-                    </a>
+                    
+                    <div class="flex items-center gap-2 ms-2">
+                        <a href="login.html" class="h-10 px-5 rounded-lg border-2 border-primary text-primary flex items-center justify-center font-bold text-sm transition-all hover:bg-primary hover:text-white">
+                            Login
+                        </a>
+                        <a href="register.html" class="h-10 px-5 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-sm transition-all hover:bg-green-700 shadow-md gap-2">
+                            <i class="fas fa-user-plus"></i> Register
+                        </a>
+                    </div>
                 </div>
                 
                 <button id="mobile-menu-btn" class="nav-icon-btn text-xl cursor-pointer p-2 rounded-lg w-10 h-10 flex items-center justify-center mobile-menu-button">
@@ -269,30 +314,26 @@
         </div>
     </nav>
     
-    <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 w-full h-full z-[9999] overflow-y-auto">
-        <div class="p-6">
+    <div id="mobile-menu" class="mobile-menu fixed top-0 start-0 w-full h-full z-[9999] overflow-y-auto">
+        <div class="p-6 pb-24">
             <div class="flex justify-between items-center mb-8 border-b border-theme pb-4">
                 <a href="index.html" class="flex items-center gap-2">
                     <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
                         <i class="fas fa-leaf text-sm"></i>
                     </div>
-                    <span class="text-lg font-black tracking-tight text-heading-theme hidden sm:block">GrowwEco</span>
+                    <span class="text-lg font-black tracking-tight text-heading-theme block">EcoNova</span>
                 </a>
                 
-                <div class="flex items-center gap-1 sm:gap-2">
-                    <button class="w-8 h-8 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="mobile-theme-toggle" title="Toggle Dark/Light Mode">
+                <div class="flex items-center gap-2">
+                    <button class="w-8 h-8 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="mobile-theme-toggle" title="Toggle Dark Mode">
                         <i class="fas fa-moon text-sm" id="mobile-theme-icon"></i>
                     </button>
                     
                     <button class="w-8 h-8 nav-icon-btn rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-white shrink-0 border-0 cursor-pointer" id="mobile-rtl-toggle" title="Toggle RTL">
-                        <i class="fas fa-language text-sm"></i>
+                        <i class="fas fa-align-right text-sm"></i>
                     </button>
                     
-                    <a href="login.html" class="bg-primary text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-all hover:bg-green-700" title="Login">
-                        <i class="fas fa-user text-sm"></i>
-                    </a>
-                    
-                    <button id="close-mobile-menu" class="text-heading-theme text-2xl ml-1 transition-transform active:scale-90 border-none bg-transparent cursor-pointer">
+                    <button id="close-mobile-menu" class="text-heading-theme text-2xl ms-1 transition-transform active:scale-90 border-none bg-transparent cursor-pointer">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -301,72 +342,84 @@
             <div class="space-y-1">
                 <div>
                     <button id="mobile-home-link" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline cursor-pointer border-0 bg-transparent" onclick="toggleMobileDropdown('home-mobile')">
-                        <span><i class="fas fa-home mr-2 text-primary"></i> Home</span>
+                        <span><i class="fas fa-home me-2 text-primary"></i> Home</span>
                         <i class="fas fa-chevron-down dropdown-arrow text-body-theme"></i>
                     </button>
                     <div id="home-mobile" class="mobile-dropdown-content">
-                        <a href="index.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Home 1</a>
-                        <a href="home2.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Home 2</a>
+                        <a href="index.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:ps-2.5 font-medium">Home 1</a>
+                        <a href="home2.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:ps-2.5 font-medium">Home 2</a>
                     </div>
                 </div>
 
                 <a href="about.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-info-circle mr-2 text-primary"></i> About</span>
+                    <span><i class="fas fa-info-circle me-2 text-primary"></i> About</span>
                 </a>
                 <a href="impact.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-globe mr-2 text-primary"></i> Impact</span>
+                    <span><i class="fas fa-globe me-2 text-primary"></i> Impact</span>
                 </a>
                 <a href="product.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-box-open mr-2 text-primary"></i> Product</span>
+                    <span><i class="fas fa-box-open me-2 text-primary"></i> Product</span>
                 </a>
                 <a href="blog.html" class="flex items-center justify-between w-full text-primary text-lg font-bold py-3 no-underline">
-                    <span><i class="fas fa-leaf mr-2"></i> Blog</span>
+                    <span><i class="fas fa-leaf me-2 text-primary"></i> Blog</span>
                 </a>
                 <a href="faq.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-question-circle mr-2 text-primary"></i> FAQ</span>
+                    <span><i class="fas fa-question-circle me-2 text-primary"></i> FAQ</span>
                 </a>
                 <a href="pricing.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-tags mr-2 text-primary"></i> Pricing</span>
+                    <span><i class="fas fa-tags me-2 text-primary"></i> Pricing</span>
                 </a>
                 <a href="contact.html" class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline">
-                    <span><i class="fas fa-envelope mr-2 text-primary"></i> Contact</span>
+                    <span><i class="fas fa-envelope me-2 text-primary"></i> Contact</span>
                 </a>
                 
                 <div>
                     <button class="flex items-center justify-between w-full text-heading-theme text-lg font-medium py-3 no-underline cursor-pointer border-0 bg-transparent" onclick="toggleMobileDropdown('dashboard-mobile')">
-                        <span><i class="fas fa-tachometer-alt mr-2 text-primary"></i> Dashboard</span>
+                        <span><i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard</span>
                         <i class="fas fa-chevron-down dropdown-arrow text-body-theme"></i>
                     </button>
                     <div id="dashboard-mobile" class="mobile-dropdown-content">
-                        <a href="user-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">User Dashboard</a>
-                        <a href="admin-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:pl-2.5 font-medium">Admin Dashboard</a>
+                        <a href="user-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:ps-2.5 font-medium">User Dashboard</a>
+                        <a href="admin-dashboard.html" class="block text-body-theme py-2.5 transition-all duration-300 hover:text-primary hover:ps-2.5 font-medium">Admin Dashboard</a>
                     </div>
                 </div>
+                
+                <div class="mt-8 pt-6 border-t border-theme flex flex-col gap-3">
+                    <a href="login.html" class="flex items-center justify-center w-full py-3 rounded-xl border-2 border-primary text-primary font-bold text-lg transition-all hover:bg-primary hover:text-white">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                    </a>
+                    <a href="register.html" class="flex items-center justify-center w-full py-3 rounded-xl bg-primary text-white font-bold text-lg transition-all hover:bg-green-700 shadow-md">
+                        <i class="fas fa-user-plus me-2"></i> Register
+                    </a>
+                </div>
+                
             </div>
         </div>
     </div>
+
     <section id="article-hero" class="pt-[100px] min-h-screen relative overflow-hidden flex items-end pb-24 bg-cover bg-center" style="background-image: url('Images/10 Easy Swaps for a Plastic-Free Kitchen.jpg');">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30 pointer-events-none z-0"></div>
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] pointer-events-none z-0"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none z-0"></div>
         
         <div class="container mx-auto px-4 relative z-10 max-w-4xl fade-in-up">
-            <a href="blog.html" class="inline-flex items-center text-white/80 hover:text-white mb-6 text-sm font-medium transition-colors">
-                <i class="fas fa-arrow-left mr-2"></i> Back to Blog
+            <a href="blog.html" class="inline-flex items-center text-white/90 hover:text-white mb-6 text-sm font-medium transition-colors drop-shadow-md">
+                <i class="fas fa-arrow-left me-2 rtl:rotate-180"></i> Back to Blog
             </a>
             
-            <div id="dynamic-category" class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4 uppercase tracking-wide">Guides</div>
+            <div id="dynamic-category" class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4 uppercase tracking-wide drop-shadow-md">Guides</div>
             
-            <h1 id="dynamic-title" class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight text-white drop-shadow-md">
+            <h1 id="dynamic-title" class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight text-white drop-shadow-lg">
                 10 Easy Swaps for a Plastic-Free Kitchen
             </h1>
             
-            <div class="flex flex-wrap items-center gap-6 text-gray-300 text-sm">
+            <div class="flex flex-wrap items-center gap-6 text-gray-200 text-sm drop-shadow-md font-medium">
                 <div class="flex items-center gap-2">
                     <i class="far fa-calendar-alt"></i> <span id="dynamic-date">Oct 12, 2026</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <i class="far fa-clock"></i> <span id="dynamic-read-time">5 min read</span>
                 </div>
-                <div class="flex gap-2 ml-auto">
+                <div class="flex gap-2 ms-auto">
                     <button class="w-10 h-10 rounded-full bg-white/20 hover:bg-primary text-white flex items-center justify-center transition-colors shadow-lg"><i class="fas fa-share-alt"></i></button>
                     <button class="w-10 h-10 rounded-full bg-white/20 hover:bg-primary text-white flex items-center justify-center transition-colors shadow-lg"><i class="far fa-bookmark"></i></button>
                 </div>
@@ -424,7 +477,7 @@
                                 </div>
                             </div>
                             
-                            <div class="flex gap-4 ml-8 md:ml-12">
+                            <div class="flex gap-4 ms-8 md:ms-12">
                                 <img src="Images/David Ross.jpg" alt="Author" class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60'">
                                 <div class="bg-card-theme p-5 rounded-2xl rounded-tl-none border border-primary/30 flex-grow shadow-sm">
                                     <div class="flex justify-between items-center mb-2">
@@ -443,16 +496,16 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-sm font-medium text-body-theme mb-1">Name *</label>
-                                        <input type="text" class="w-full px-4 py-3 rounded-lg border border-theme bg-card-theme text-body-theme focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required>
+                                        <input type="text" class="eco-input-field w-full px-4 py-3 rounded-lg border transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-body-theme mb-1">Email *</label>
-                                        <input type="email" class="w-full px-4 py-3 rounded-lg border border-theme bg-card-theme text-body-theme focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required>
+                                        <input type="email" class="eco-input-field w-full px-4 py-3 rounded-lg border transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-body-theme mb-1">Comment *</label>
-                                    <textarea rows="4" class="w-full px-4 py-3 rounded-lg border border-theme bg-card-theme text-body-theme focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required></textarea>
+                                    <textarea rows="4" class="eco-input-field w-full px-4 py-3 rounded-lg border transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" required></textarea>
                                 </div>
                                 <button type="submit" class="bg-primary text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 transition-colors shadow-md">Post Comment</button>
                             </form>
@@ -461,7 +514,6 @@
                 </div>
 
                 <aside class="lg:w-1/3 space-y-8">
-                    
                     <div class="bg-card-theme p-6 rounded-2xl border border-theme shadow-sm">
                         <div class="flex items-center gap-4 mb-4">
                             <img src="Images/David Ross.jpg" alt="Author" class="w-16 h-16 rounded-full object-cover border-2 border-primary" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60'">
@@ -501,21 +553,19 @@
 
     <section class="py-16 bg-theme-alt border-b border-theme">
         <div class="container mx-auto px-4 max-w-6xl">
-            <div class="flex justify-between items-end mb-10">
-                <div>
-                    <span class="text-primary font-bold tracking-wider uppercase text-sm block mb-1">Keep Exploring</span>
-                    <h2 class="text-3xl md:text-4xl font-black text-heading-theme">Read Next</h2>
-                </div>
-                <a href="blog.html" class="hidden md:flex items-center gap-2 text-primary font-bold hover:text-green-700 transition-colors">
-                    Back to Blog <i class="fas fa-arrow-right"></i>
+            <div class="relative text-center mb-10 w-full">
+                <span class="text-primary font-bold tracking-wider uppercase text-sm block mb-2 w-full">Keep Exploring</span>
+                <h2 class="text-3xl md:text-4xl font-black text-heading-theme w-full">Read Next</h2>
+                <a href="blog.html" class="hidden md:inline-flex items-center gap-2 text-primary font-bold hover:text-green-700 transition-colors absolute end-0 bottom-2">
+                    Back to Blog <i class="fas fa-arrow-right rtl:rotate-180"></i>
                 </a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <a href="blog-detail.html?id=4" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
-                    <div class="h-48 relative overflow-hidden">
+                <a href="blog-detail.html?id=4" class="bg-card-theme h-full rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col no-underline group">
+                    <div class="h-48 relative overflow-hidden shrink-0">
                         <img src="Images/How to Composting in a Small Apartment.jpg" alt="Composting" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?w=600&auto=format&fit=crop&q=60'">
-                        <div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Tips</div>
+                        <div class="absolute top-4 start-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Tips</div>
                     </div>
                     <div class="p-6 flex-grow flex flex-col">
                         <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">How to Composting in a Small Apartment</h3>
@@ -524,10 +574,10 @@
                     </div>
                 </a>
 
-                <a href="blog-detail.html?id=5" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
-                    <div class="h-48 relative overflow-hidden">
+                <a href="blog-detail.html?id=5" class="bg-card-theme h-full rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col no-underline group">
+                    <div class="h-48 relative overflow-hidden shrink-0">
                         <img src="Images/Building a Sustainable Wardrobe on a Budget.jpg" alt="Wardrobe" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&auto=format&fit=crop&q=60'">
-                        <div class="absolute top-4 left-4 bg-secondary text-black text-xs font-bold px-3 py-1 rounded-full">Lifestyle</div>
+                        <div class="absolute top-4 start-4 bg-secondary text-black text-xs font-bold px-3 py-1 rounded-full">Lifestyle</div>
                     </div>
                     <div class="p-6 flex-grow flex flex-col">
                         <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">Building a Sustainable Wardrobe on a Budget</h3>
@@ -536,10 +586,10 @@
                     </div>
                 </a>
 
-                <a href="blog-detail.html?id=3" class="bg-card-theme rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col block no-underline group">
-                    <div class="h-48 relative overflow-hidden">
+                <a href="blog-detail.html?id=3" class="bg-card-theme h-full rounded-2xl overflow-hidden shadow-sm border border-theme transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg flex flex-col no-underline group">
+                    <div class="h-48 relative overflow-hidden shrink-0">
                         <img src="Images/Meet the Artisans Behind Our Bamboo Collection.jpg" alt="Artisans" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=600&auto=format&fit=crop&q=60'">
-                        <div class="absolute top-4 left-4 bg-baseDark text-white text-xs font-bold px-3 py-1 rounded-full">Interviews</div>
+                        <div class="absolute top-4 start-4 bg-baseDark text-white text-xs font-bold px-3 py-1 rounded-full">Interviews</div>
                     </div>
                     <div class="p-6 flex-grow flex flex-col">
                         <h3 class="text-xl font-bold text-heading-theme mb-3 line-clamp-2 group-hover:text-primary transition-colors">Meet the Artisans Behind Our Bamboo Collection</h3>
@@ -552,7 +602,7 @@
     </section>
 
     <section class="py-16 md:py-20 bg-primary relative overflow-hidden">
-        <i class="fas fa-envelope-open-text absolute -right-10 -bottom-10 text-[15rem] text-white opacity-10 rotate-12 pointer-events-none"></i>
+        <i class="fas fa-envelope-open-text absolute -end-10 -bottom-10 text-[15rem] text-white opacity-10 rotate-12 pointer-events-none"></i>
         
         <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-2xl mx-auto text-center">
@@ -562,7 +612,7 @@
                 </p>
                 
                 <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="event.preventDefault();">
-                    <input type="email" placeholder="Enter your email address..." class="flex-grow px-5 py-3 rounded-lg border-0 bg-white text-black focus:outline-none focus:ring-2 focus:ring-accent font-medium shadow-md" required>
+                    <input type="email" placeholder="Enter your email address..." class="eco-input-field flex-grow px-5 py-3 rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-accent font-medium shadow-md" required>
                     <button type="submit" class="bg-baseDark text-white px-8 py-3 rounded-lg font-bold hover:bg-black transition-colors shadow-md whitespace-nowrap">
                         Subscribe Now
                     </button>
@@ -580,12 +630,12 @@
                         <div class="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white shrink-0 shadow-md">
                             <i class="fas fa-leaf text-sm md:text-base"></i>
                         </div>
-                        <div class="text-xl md:text-2xl font-black tracking-tight text-white">GrowwEco</div>
+                        <div class="text-xl md:text-2xl font-black tracking-tight text-white">EcoNova</div>
                     </a>
                     <p class="opacity-80 mb-6 text-sm md:text-base text-gray-300">
                         Empowering individuals to make sustainable choices. Go green, live clean.
                     </p>
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-4 rtl:space-x-reverse">
                         <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-twitter"></i></a>
                         <a href="#" class="w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-primary transition"><i class="fab fa-instagram"></i></a>
@@ -622,8 +672,8 @@
                 </div>
             </div>
             
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm md:text-base text-white">
-                <p class="mb-4 md:mb-0 text-gray-300 font-medium">&copy; 2026 GrowwEco. All rights reserved.</p>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm md:text-base text-white text-center md:text-start">
+                <p class="mb-4 md:mb-0 text-gray-300 font-medium">&copy; 2026 EcoNova. All rights reserved.</p>
                 <div class="flex flex-wrap justify-center gap-4 md:gap-6">
                     <a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Privacy Policy</a>
                     <a href="#" class="text-gray-300 opacity-80 hover:opacity-100 hover:text-primary transition">Terms of Service</a>
@@ -632,76 +682,142 @@
         </div>
     </footer>
 
-    <button id="scroll-top" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 bg-accent text-black rounded-full shadow-lg hidden hover:bg-yellow-500 transition z-50 border border-black/10">
+    <button id="scroll-top" class="fixed bottom-6 end-6 md:bottom-8 md:end-8 w-10 h-10 md:w-12 md:h-12 bg-accent text-black rounded-full shadow-lg hidden hover:bg-yellow-500 transition z-50 border border-black/10">
         <i class="fas fa-arrow-up"></i>
     </button>
 
     <script>
-        // 1. Dark/Light Mode Logic
-        const desktopThemeToggleBtn = document.getElementById('desktop-theme-toggle-btn');
-        const desktopThemeIcon = document.getElementById('desktop-theme-icon');
-        const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
-        const mobileThemeIcon = document.getElementById('mobile-theme-icon');
+        // 1. Theme Logic (Refined for both desktop & mobile icons)
         const htmlElement = document.documentElement;
-        
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        htmlElement.setAttribute('data-theme', currentTheme);
-        if (currentTheme === 'dark') {
-            htmlElement.classList.add('dark');
-            if (desktopThemeIcon) desktopThemeIcon.classList.replace('fa-moon', 'fa-sun');
-            if (mobileThemeIcon) mobileThemeIcon.classList.replace('fa-moon', 'fa-sun');
+        const themeToggles = document.querySelectorAll('#desktop-theme-toggle-btn, #mobile-theme-toggle');
+
+        function updateThemeIcon() {
+            const isDark = htmlElement.classList.contains('dark');
+            themeToggles.forEach(btn => {
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.className = isDark ? 'fas fa-sun text-sm' : 'fas fa-moon text-sm';
+                }
+            });
         }
 
-        function toggleTheme() {
-            const isDark = htmlElement.getAttribute('data-theme') === 'dark';
-            const newTheme = isDark ? 'light' : 'dark';
-            htmlElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            if (newTheme === 'dark') { htmlElement.classList.add('dark'); } 
-            else { htmlElement.classList.remove('dark'); }
-            if (desktopThemeIcon) desktopThemeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            if (mobileThemeIcon) mobileThemeIcon.className = newTheme === 'dark' ? 'fas fa-sun text-sm' : 'fas fa-moon text-sm';
+        function toggleDarkMode() {
+            htmlElement.classList.toggle('dark');
+            const isDark = htmlElement.classList.contains('dark');
+            htmlElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon();
         }
-        if (desktopThemeToggleBtn) desktopThemeToggleBtn.addEventListener('click', toggleTheme);
-        if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
 
-        // 2. RTL Logic
-        const desktopRtlToggleBtn = document.getElementById('desktop-rtl-toggle-btn');
-        const mobileRtlToggle = document.getElementById('mobile-rtl-toggle');
-        const currentDir = localStorage.getItem('direction') || 'ltr';
-        htmlElement.setAttribute('dir', currentDir);
-        
+        themeToggles.forEach(btn => btn.addEventListener('click', toggleDarkMode));
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light'; 
+        if (savedTheme === 'dark') {
+            htmlElement.classList.add("dark");
+            htmlElement.setAttribute('data-theme', 'dark');
+        } else {
+            htmlElement.classList.remove("dark");
+            htmlElement.setAttribute('data-theme', 'light');
+        }
+        updateThemeIcon();
+
+        // 2. RTL Logic (Refined for both desktop & mobile icons)
+        const rtlToggles = document.querySelectorAll('#desktop-rtl-toggle-btn, #mobile-rtl-toggle');
+
         function toggleRTL() {
-            const direction = htmlElement.getAttribute('dir') === 'rtl' ? 'ltr' : 'rtl';
-            htmlElement.setAttribute('dir', direction);
-            localStorage.setItem('direction', direction);
+            const current = htmlElement.getAttribute("dir") || "ltr";
+            const next = current === "rtl" ? "ltr" : "rtl";
+            htmlElement.setAttribute("dir", next);
+            localStorage.setItem("direction", next);
+            
+            updateRTLIcons(next);
         }
-        if (desktopRtlToggleBtn) desktopRtlToggleBtn.addEventListener('click', toggleRTL);
-        if (mobileRtlToggle) mobileRtlToggle.addEventListener('click', toggleRTL);
 
-        // 3. Dropdowns & Menu Logic
+        function updateRTLIcons(dir) {
+            rtlToggles.forEach(btn => {
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.className = dir === 'rtl' ? 'fas fa-align-left text-sm' : 'fas fa-align-right text-sm';
+                }
+            });
+        }
+
+        rtlToggles.forEach(btn => btn.addEventListener("click", toggleRTL));
+
+        // Set initial state on load
+        if (localStorage.getItem("direction") === "rtl") {
+            htmlElement.setAttribute("dir", "rtl");
+            updateRTLIcons("rtl");
+        } else {
+            updateRTLIcons("ltr");
+        }
+
+        // Dropdowns & Menu
         function toggleDesktopDropdown(id) {
-            document.querySelectorAll('.dropdown').forEach(d => { if(d.id !== id) d.classList.remove('active'); });
+            document.querySelectorAll('.dropdown').forEach(d => {
+                if(d.id !== id) d.classList.remove('active');
+            });
             document.getElementById(id).classList.toggle('active');
         }
+        
         function toggleMobileDropdown(id) {
             document.getElementById(id).classList.toggle('active');
         }
+
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.dropdown')) {
                 document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
             }
         });
+
+        // Mobile Menu
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const closeMobileMenu = document.getElementById('close-mobile-menu');
-        if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
-        if(closeMobileMenu) closeMobileMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
+
+        if(mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+        }
+        if(closeMobileMenu) {
+            closeMobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        }
+
+        // Active State Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+            
+            document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+                    link.classList.add('active');
+                    const parent = link.closest('.dropdown');
+                    if(parent) parent.querySelector('.nav-link').classList.add('active');
+                }
+            });
+
+            if (currentPath === 'index.html' || currentPath === '') {
+                const mobileHomeBtn = document.getElementById('mobile-home-link');
+                if (mobileHomeBtn) {
+                    mobileHomeBtn.classList.add('text-primary'); 
+                }
+            }
+        });
 
         // Scroll Top
         const scrollTopBtn = document.getElementById('scroll-top');
-        window.addEventListener('scroll', () => { scrollTopBtn.classList.toggle('hidden', window.scrollY <= 300); });
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('hidden', window.scrollY <= 300);
+        });
         scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        
+        window.addEventListener('resize', () => {
+            if(window.innerWidth >= 1280) mobileMenu.classList.remove('active');
+        });
 
         // 4. DYNAMIC CONTENT LOGIC (The "Database")
         const articlesDatabase = {
